@@ -1,0 +1,117 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.taxibill'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.taxibill"
+        minSdk 26
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    viewBinding {
+        enabled = true
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "androidx.browser:browser:1.5.0"
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.0"))
+    implementation 'com.github.amitshekhariitbhu.Fast-Android-Networking:android-networking:1.0.2'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.job:droidnet:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.2'
+
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
+
+// Lottie dependency
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
+    // pinview
+    implementation("io.github.chaosleung:pinview:1.4.4")
+
+//  Bottom navigation
+    implementation("com.github.ismaeldivita:chip-navigation-bar:1.4.0")
+
+    // crop image
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.github.Drjacky:ImagePicker:2.3.22")
+
+    //crop
+    implementation 'com.naver.android.helloyako:imagecropview:1.2.0'
+
+//  Read more text
+    implementation("com.github.colourmoon:readmore-textview:v1.0.2")
+
+//  Pie chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //get path
+    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+
+// tool tip
+    implementation ("com.github.vihtarb:tooltip:0.1.9")
+
+    //navigation dependency
+    implementation 'com.github.ismaeldivita:chip-navigation-bar:1.4.0'
+
+    //graph dependency
+    //compile 'com.github.lecho:hellocharts-android:v1.5.8'
+
+//    implementation 'com.github.lecho:hellocharts-android:v1.5.8'
+//    implementation 'com.github.lecho:hellocharts-android:v1.5.8@aar'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+//  banner indicator
+    implementation ("com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10")
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+//    Image picker
+    implementation 'com.github.Drjacky:ImagePicker:2.3.22'
+}

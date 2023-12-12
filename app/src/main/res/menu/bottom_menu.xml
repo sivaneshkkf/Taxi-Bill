@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/icon_home"
+        android:title="Home"
+        app:cnb_backgroundColor="@color/white"
+        app:cnb_iconColor="@color/blue"
+        app:cnb_iconTintMode="src_in"
+        app:cnb_textColor="@color/blue" />
+
+    <item
+        android:id="@+id/shopping"
+        android:icon="@drawable/icon_shopping"
+        android:title="Shopping"
+        app:cnb_backgroundColor="@color/white"
+        app:cnb_iconColor="@color/blue"
+        app:cnb_iconTintMode="src_in"
+        app:cnb_textColor="@color/blue" />
+    <item
+        android:title=""/>
+
+    <item
+        android:id="@+id/footprint"
+        android:icon="@drawable/icon_footprint"
+        android:title="Pet"
+        app:cnb_backgroundColor="@color/white"
+        app:cnb_iconColor="@color/blue"
+        app:cnb_iconTintMode="src_in"
+        app:cnb_textColor="@color/blue" />
+
+    <!--    <item
+            android:id="@+id/my_pet"
+            android:icon="@drawable/icon_my_pet"
+            android:title="My Pets"
+            app:cnb_backgroundColor="@color/white"
+            app:cnb_iconColor="@color/blue"
+            app:cnb_iconTintMode="src_in"
+            app:cnb_textColor="@color/blue" />-->
+
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/icon_user"
+        android:title="Account"
+        app:cnb_backgroundColor="@color/white"
+        app:cnb_iconColor="@color/blue"
+        app:cnb_iconTintMode="src_in"
+        app:cnb_textColor="@color/blue" />
+
+</menu>

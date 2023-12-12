@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/img3_signin" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Sign in and save Money!"
+                android:textColor="@color/Royal_blue"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                app:boxBackgroundColor="#F8FBFB"
+                app:boxStrokeErrorColor="#FA5252"
+                android:id="@+id/username_text_input_layout"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Enter Your Name"
+                    android:inputType="textPersonName"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                app:boxBackgroundColor="#F8FBFB"
+                app:boxStrokeErrorColor="#FA5252"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Enter Your E-mail"
+                    android:inputType="textPersonName"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                app:boxBackgroundColor="#F8FBFB"
+                app:boxStrokeErrorColor="#FA5252"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Enter Your Phone Number"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                app:boxBackgroundColor="#F8FBFB"
+                app:boxStrokeErrorColor="#FA5252"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvDOB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:hint="DOB"
+                    android:focusable="false"
+                    android:drawableRight="@drawable/date_blue"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:inputType="textPersonName"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                app:boxBackgroundColor="#F8FBFB"
+                app:boxStrokeErrorColor="#FA5252"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="match_parent"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/tvGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Gender"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:inputType="textPersonName"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:visibility="gone"
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="15dp"
+                app:boxBackgroundColor="#F8FBFB"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                app:passwordToggleEnabled="true"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Enter Your Password"
+                    android:inputType="textPersonName"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:visibility="gone"
+                style="@style/LoginTextInputLayoutStyle"
+                android:theme="@style/LoginTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="15dp"
+                app:boxBackgroundColor="#F8FBFB"
+                app:hintTextColor="@color/Royal_blue"
+                android:textColorHint="@color/Royal_blue"
+                app:passwordToggleEnabled="true"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tvConfirm_Password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:hint="Confirm Password"
+                    android:inputType="textPersonName"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey_text"
+                    android:textSize="14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+    <TextView
+        android:id="@+id/btnSignin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_button"
+        android:backgroundTint="@color/Royal_blue"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:padding="15dp"
+        android:text="Signin"
+        android:layout_marginBottom="50dp"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="right"
+            android:text="Already have an account? "
+            android:textColor="@color/dark_grey_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="left"
+            android:text=" Login Now"
+            android:textColor="@color/Royal_blue"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>
