@@ -42,6 +42,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.taxibill.Adapter.Pic_Drop_Loc_Adapter;
 import com.example.taxibill.DB.DB_Model;
 import com.example.taxibill.DB.DBhelper;
@@ -367,6 +368,8 @@ public class Add_Fragment extends Fragment {
 
             }
         });
+
+        Glide.with(getActivity()).asGif().load(R.drawable.cargif).into(binding.gif);
 
     }
 
