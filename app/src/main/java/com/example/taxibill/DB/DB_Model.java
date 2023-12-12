@@ -11,12 +11,13 @@ public class DB_Model {
     private String DATE_OBJ;
     private String PICKUP_LOC;
     private String DROP_LOC;
+    private String DESC;
     private int TOTAL_KM;
     private int PER_KM;
     private int TOLL_CHARGES;
     private int TOTAL_FAR;
 
-    public DB_Model(int COLUMN_ID, String VEHICLE, String DATE, String DAY, String MONTH, String MONTH_TXT, String YEAR, String DATE_OBJ, String PICKUP_LOC, String DROP_LOC, int TOTAL_KM, int PER_KM, int TOLL_CHARGES, int TOTAL_FAR) {
+    public DB_Model(int COLUMN_ID, String VEHICLE, String DATE, String DAY, String MONTH, String MONTH_TXT, String YEAR, String DATE_OBJ, String PICKUP_LOC, String DROP_LOC, String DESC, int TOTAL_KM, int PER_KM, int TOLL_CHARGES, int TOTAL_FAR) {
         this.COLUMN_ID = COLUMN_ID;
         this.VEHICLE = VEHICLE;
         this.DATE = DATE;
@@ -27,6 +28,7 @@ public class DB_Model {
         this.DATE_OBJ = DATE_OBJ;
         this.PICKUP_LOC = PICKUP_LOC;
         this.DROP_LOC = DROP_LOC;
+        this.DESC = DESC;
         this.TOTAL_KM = TOTAL_KM;
         this.PER_KM = PER_KM;
         this.TOLL_CHARGES = TOLL_CHARGES;
@@ -111,6 +113,14 @@ public class DB_Model {
 
     public void setDROP_LOC(String DROP_LOC) {
         this.DROP_LOC = DROP_LOC;
+    }
+
+    public String getDESC() {
+        return DESC;
+    }
+
+    public void setDESC(String DESC) {
+        this.DESC = DESC;
     }
 
     public int getTOTAL_KM() {

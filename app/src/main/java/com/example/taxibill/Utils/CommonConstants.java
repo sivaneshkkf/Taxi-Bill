@@ -27,12 +27,14 @@ public interface CommonConstants {
             dateObj="dateObj",
             pickupLoc="pickupLoc",
             dropLoc="dropLoc",
+            desc="description",
             totalKm="totalKm",
             perKm="perKm",
             tollCharges="tollCharges",
             totalFar="totalFar",
             picDropLoc="picDropLoc",
-            locVal="locVal";
+            locVal="locVal",
+            progressVal="progressVal";
 
 String FOLDER_NAME="Savings";
 

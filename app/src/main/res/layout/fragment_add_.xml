@@ -259,6 +259,45 @@
                 android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Description"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="(optional)"
+                        android:textColor="@color/gray"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/desc"
+                    style="@style/Edit_textbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/descError"
+                    style="@style/error_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -350,25 +389,28 @@
             <ImageView
                 android:id="@+id/gif"
                 android:layout_width="50dp"
-                android:layout_marginBottom="3dp"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:layout_marginBottom="3dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:indeterminateOnly="false"
-                android:progress="50"
-                android:progressBackgroundTint="#E1DDFB"
-                android:progressDrawable="@drawable/progress_bar_linear"
-                android:progressTint="@color/endcolor" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:indeterminateOnly="false"
+                    android:progress="50"
+                    android:progressBackgroundTint="#E1DDFB"
+                    android:progressDrawable="@drawable/progress_bar_linear"
+                    android:progressTint="@color/endcolor" />
+
                 <TextView
                     android:id="@+id/percentage"
                     style="@style/poppins_semiBold_600"
@@ -381,7 +423,6 @@
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
-
 
 
     <LinearLayout

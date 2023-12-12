@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -41,11 +42,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.taxibill.Adapter.Pic_Drop_Loc_Adapter;
 import com.example.taxibill.DB.DB_Model;
 import com.example.taxibill.DB.DBhelper;
+import com.example.taxibill.DB.Date_Model;
 import com.example.taxibill.DB.PicDrop_Model;
 import com.example.taxibill.DB.Vehicle_Model;
 import com.example.taxibill.MainActivity;
@@ -86,8 +89,9 @@ public class Add_Fragment extends Fragment {
     public static LinearLayout linBtn;
 
     int locVal=1;
-    String vehicle="",date="",day="",month="",monthTxt,year="",dateObj="",pickupLoc="",dropLoc="",totalKm="",perKm="",tollCharges="",totalFar="";
+    String vehicle="",date="",day="",month="",monthTxt,year="",dateObj="",pickupLoc="",dropLoc="",description="",totalKm="",perKm="",tollCharges="",totalFar="";
     int totalKmINT=0,perKmINT=0,tollChargesINT=0,totalFarINT=0;
+    int progressVal=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -130,9 +134,10 @@ public class Add_Fragment extends Fragment {
             picDropModelsList.add(new PicDrop_Model(String.valueOf(locVal),"",""));
         }
 
-        if(MyPrefs.getInstance(getActivity()).getInt(CommonConstants.locVal)>0){
+        getSharedPrefValues();
+        /*if(MyPrefs.getInstance(getActivity()).getInt(CommonConstants.locVal)>0){
            //locVal=MyPrefs.getInstance(getActivity()).getInt(CommonConstants.locVal);
-        }
+        }*/
 
 
         //Log.i("list_list", "list: "+picDropModelsList.get(0).getPicLoc());
@@ -163,9 +168,11 @@ public class Add_Fragment extends Fragment {
                 if(s.length()>0){
                     val=Integer.parseInt(s.toString().trim());
                     totalKmINT=val;
+                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.totalKm,totalKmINT);
                 }else{
                     val=0;
                     totalKmINT=val;
+                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.totalKm,totalKmINT);
                 }
             }
 
@@ -189,9 +196,11 @@ public class Add_Fragment extends Fragment {
                 if(s.length()>0){
                     val=Integer.parseInt(s.toString().trim());
                     perKmINT=val;
+                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.perKm,perKmINT);
                 }else{
                     val=0;
                     perKmINT=val;
+                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.perKm,perKmINT);
                 }
 
             }
@@ -216,9 +225,12 @@ public class Add_Fragment extends Fragment {
                 if(s.length()>0){
                     val=Integer.parseInt(s.toString().trim());
                     tollChargesINT=val;
+                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.tollCharges,tollChargesINT);
+
                 }else{
                     val=0;
                     tollChargesINT=val;
+                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.tollCharges,tollChargesINT);
                 }
             }
 
@@ -228,6 +240,7 @@ public class Add_Fragment extends Fragment {
                 binding.totalFar.setText("₹"+String.valueOf(totalFarINT));
             }
         });
+
 
         binding.linearDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +263,15 @@ public class Add_Fragment extends Fragment {
 
                        String dateTxt=getDateFormat(dateFormatNativeDate,year2,mon,dayOfMonth);
                        binding.date.setText(dateTxt);
+
+                        Date_Model dateModel=new Date_Model(date,month,year,dateObj,monthTxt,day,dateTxt);
+
+                        Gson gson = new Gson();
+                        String jsonDate = gson.toJson(dateModel);
+
+                        MyPrefs.getInstance(getActivity()).putString(CommonConstants.date, jsonDate);
+                        progressVal+=100/6;
+                        MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
 
                         Log.i("date_formats", "date: "+date);
                         Log.i("date_formats", "month: "+month);
@@ -314,6 +336,9 @@ public class Add_Fragment extends Fragment {
 
                 MyPrefs.getInstance(getActivity()).putString(CommonConstants.picDropLoc, json);
 
+                progressVal+=100/6;
+                MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+
                 if (v.getId() == R.id.delete) {
                     if(picDropModelsList.size()>1) {
                         picDropModelsList.remove(i);
@@ -329,14 +354,42 @@ public class Add_Fragment extends Fragment {
                         MyPrefs.getInstance(getActivity()).putInt(CommonConstants.locVal, locVal);
                     }
                 }
+
+                if(v.getId()==R.id.picLoc){
+                    if(i==0){
+                        if(!picDropModelsList.get(i).getPicLoc().equalsIgnoreCase("")){
+                            progressVal+=(100/6)/2;
+                            MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+                        }else{
+                            progressVal-=(100/6)/2;
+                            MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+                        }
+                    }
+                }
+                if(v.getId()==R.id.dropLoc){
+                    if(i==0){
+                        if(!picDropModelsList.get(i).getDropLoc().equalsIgnoreCase("")){
+                            progressVal+=(100/6)/2;
+                            MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+                        }else{
+                            progressVal-=(100/6)/2;
+                            MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+                        }
+
+                    }
+                }
             }
         });
         binding.recycelrPicDropLoc.setAdapter(picDropLocAdapter);
 
+        editTxt(binding.desc,CommonConstants.desc,binding.descError);
 
         if(vehicleList.size()>0){
             binding.vehicleSpinner.setSelection(0);
             vehicle=vehicleList.get(0);
+            MyPrefs.getInstance(getActivity()).putString(CommonConstants.vehicle,vehicle);
+            progressVal+=100/6;
+            MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
         }
 
         binding.submit.setOnClickListener(new View.OnClickListener() {
@@ -345,31 +398,87 @@ public class Add_Fragment extends Fragment {
                 totalKm=binding.totalKm.getText().toString().trim();
                 perKm=binding.perKm.getText().toString().trim();
                 tollCharges=binding.tollCharges.getText().toString().trim();
+                description=binding.desc.getText().toString().trim();
+
                 pickupLoc=json;
                 dropLoc=json;
                if(date.equalsIgnoreCase("")){
                     binding.dateError.setText("Please Select A Date");
                     binding.dateError.setVisibility(View.VISIBLE);
-                }else if(pickupLoc.equalsIgnoreCase("")){
+                }/*else if(pickupLoc.equalsIgnoreCase("")){
                    binding.pickupDropLocError.setText("Please Enter Pickup Location");
                    binding.pickupDropLocError.setVisibility(View.VISIBLE);
-                }else if(dropLoc.equalsIgnoreCase("")){
+                }*/else if(dropLoc.equalsIgnoreCase("")){
                    binding.pickupDropLocError.setText("Please Enter Drop Location");
                    binding.pickupDropLocError.setVisibility(View.VISIBLE);
                 }else if(totalKm.equalsIgnoreCase("")){
                    binding.totalKmError.setText("Please Enter Total KM");
                    binding.totalKmError.setVisibility(View.VISIBLE);
                 }else{
-                   db_model=new DB_Model(0, vehicle, date, day, month, monthTxt, year, dateObj, pickupLoc, dropLoc,totalKmINT, perKmINT, tollChargesINT, totalFarINT);
+                   db_model=new DB_Model(0, vehicle, date, day, month, monthTxt, year, dateObj, pickupLoc, dropLoc,description,totalKmINT, perKmINT, tollChargesINT, totalFarINT);
                    dBhelper.InsetData(db_model);
                    Intent intent=new Intent(getActivity(), MainActivity.class);
                    startActivity(intent);
+
+                   clearSharedPref();
                 }
 
             }
         });
 
+        binding.cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+
+                clearSharedPref();
+            }
+        });
+
+
         Glide.with(getActivity()).asGif().load(R.drawable.cargif).into(binding.gif);
+
+
+        binding.totalKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(totalKmINT!=0){
+                        progressVal+=100/6;
+                    }else{
+                        progressVal-=100/6;
+                    }
+                    Toast.makeText(getActivity(), ""+progressVal, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.perKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(perKmINT!=0){
+                        progressVal+=100/6;
+                    }else{
+                        progressVal-=100/6;
+                    }
+                    Toast.makeText(getActivity(), ""+progressVal, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        binding.tollCharges.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(tollChargesINT!=0){
+                        progressVal+=100/6;
+                    }else{
+                        progressVal-=100/6;
+                    }
+                    Toast.makeText(getActivity(), ""+progressVal, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
@@ -418,5 +527,78 @@ public class Add_Fragment extends Fragment {
         });
         return val;
     }
+
+    public void getSharedPrefValues(){
+        vehicle=MyPrefs.getInstance(getActivity()).getString(CommonConstants.vehicle);
+        description=MyPrefs.getInstance(getActivity()).getString(CommonConstants.desc);
+
+        totalKmINT=MyPrefs.getInstance(getActivity()).getInt(CommonConstants.totalKm);
+        totalKm=String.valueOf(totalKmINT);
+
+        perKmINT=MyPrefs.getInstance(getActivity()).getInt(CommonConstants.perKm);
+        perKm=String.valueOf(perKmINT);
+
+        tollChargesINT=MyPrefs.getInstance(getActivity()).getInt(CommonConstants.tollCharges);
+        tollCharges=String.valueOf(tollChargesINT);
+
+        String jsonDate = MyPrefs.getInstance(getActivity()).getString(CommonConstants.date);
+        if (!jsonDate.isEmpty()) {
+            // Deserialize only if the string is not empty
+            Date_Model dateModel = gson.fromJson(jsonDate, Date_Model.class);
+            Log.i("dateModel_dateModel", "dateModel: " + dateModel);
+
+            date=dateModel.getDate();
+            month=dateModel.getMonth();
+            year=dateModel.getYear();
+            dateObj=dateModel.getDateObj();
+            monthTxt=dateModel.getMonthTxt();
+            day=dateModel.getDay();
+            binding.date.setText(dateModel.getDateTxt());
+
+        }
+
+        Log.i("dateModel_dateModel", "vehicle: "+vehicle);
+        Log.i("dateModel_dateModel", "description: "+description);
+        Log.i("dateModel_dateModel", "totalKm: "+totalKm);
+        Log.i("dateModel_dateModel", "totalKmINT: "+totalKmINT);
+        Log.i("dateModel_dateModel", "perKm: "+perKm);
+        Log.i("dateModel_dateModel", "perKmINT: "+perKmINT);
+        Log.i("dateModel_dateModel", "tollCharges: "+tollCharges);
+        Log.i("dateModel_dateModel", "tollChargesINT: "+tollChargesINT);
+        Log.i("dateModel_dateModel", "picloc: "+picDropModelsList);
+
+        if(!vehicle.equalsIgnoreCase("")){
+            int pos=vehicleList.indexOf(vehicle);
+            binding.vehicleSpinner.setSelection(pos);
+        }
+
+        if(!totalKm.equalsIgnoreCase("0") && !totalKm.equalsIgnoreCase("")){
+            binding.totalKm.setText(totalKm);
+        }
+        if(!description.equalsIgnoreCase("")){
+            binding.desc.setText(description);
+        }
+        if(!perKm.equalsIgnoreCase("0") && !perKm.equalsIgnoreCase("")){
+            binding.perKm.setText(perKm);
+        }
+        if(!tollCharges.equalsIgnoreCase("0") && !tollCharges.equalsIgnoreCase("")){
+            binding.tollCharges.setText(tollCharges);
+        }
+
+        totalFarINT=(totalKmINT*perKmINT)+tollChargesINT;
+        binding.totalFar.setText("₹"+String.valueOf(totalFarINT));
+
+    }
+
+   public void clearSharedPref(){
+      MyPrefs.getInstance(getActivity()).putString(CommonConstants.vehicle,"");
+      MyPrefs.getInstance(getActivity()).putString(CommonConstants.date,"");
+      MyPrefs.getInstance(getActivity()).putString(CommonConstants.picDropLoc,"");
+      MyPrefs.getInstance(getActivity()).putString(CommonConstants.dropLoc,"");
+      MyPrefs.getInstance(getActivity()).putString(CommonConstants.desc,"");
+      MyPrefs.getInstance(getActivity()).putInt(CommonConstants.totalKm,0);
+      MyPrefs.getInstance(getActivity()).putInt(CommonConstants.perKm,0);
+      MyPrefs.getInstance(getActivity()).putInt(CommonConstants.tollCharges,0);
+   }
 
 }

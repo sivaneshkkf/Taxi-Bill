@@ -61,6 +61,7 @@ public class Trip_Details_Adapter extends RecyclerView.Adapter<Trip_Details_Adap
             binding.vModel.setText(vModel);
             //binding.picDropLoc.setText(db_model.getPICKUP_LOC()+" to "+db_model.getDROP_LOC());
             binding.totalFar.setText("₹"+db_model.getTOTAL_FAR());
+            binding.desc.setText(db_model.getDESC());
 
 
         // Set an OnClickListener to handle item clicks

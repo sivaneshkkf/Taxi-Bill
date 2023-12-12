@@ -110,6 +110,36 @@ public class Pic_Drop_Loc_Adapter extends RecyclerView.Adapter<Pic_Drop_Loc_Adap
             }
         });
 
+        binding.picLoc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    try {
+                        onItemViewClickListener.onClick(v, position);
+                        index=position;
+                        notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+        binding.dropLoc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    try {
+                        onItemViewClickListener.onClick(v, position);
+                        index=position;
+                        notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
         /*binding.picLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

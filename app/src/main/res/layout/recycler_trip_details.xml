@@ -95,7 +95,15 @@
                     android:textColor="@color/grey_text"
                     android:textSize="14sp" />
             </LinearLayout>
-
+            <TextView
+                android:id="@+id/desc"
+                style="@style/poppins_medium_500"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:textColor="@color/gray"
+                android:textSize="12sp" />
             <TextView
                 android:id="@+id/totalFar"
                 style="@style/poppins_semiBold_600"

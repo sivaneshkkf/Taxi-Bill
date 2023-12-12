@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
-                Toast.makeText(activity, ""+heightDiff, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(activity, ""+heightDiff, Toast.LENGTH_SHORT).show();
                 if (heightDiff > 200) { // Adjust the threshold as needed
                     binding.bottomAppBar.setVisibility(View.GONE);
                     binding.startBtn.setVisibility(View.GONE);

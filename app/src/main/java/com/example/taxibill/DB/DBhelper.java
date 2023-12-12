@@ -24,6 +24,7 @@ public class DBhelper extends SQLiteOpenHelper {
     public static final String DATE_OBJ="dateObj";
     public static final String PICKUP_LOC="pickupLoc";
     public static final String DROP_LOC="dropLoc";
+    public static final String DESC="description";
     public static final String TOTAL_KM="totalKm";
     public static final String PER_KM="perKm";
     public static final String TOLL_CHARGES="tollCharges";
@@ -57,6 +58,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 DATE_OBJ+ " DATE, " +
                 PICKUP_LOC+ " TEXT, " +
                 DROP_LOC+ " TEXT, " +
+                DESC+ " TEXT, " +
                 TOTAL_KM+ " INTEGER, " +
                 PER_KM+ " INTEGER, " +
                 TOLL_CHARGES+ " INTEGER, "+
@@ -97,6 +99,7 @@ public class DBhelper extends SQLiteOpenHelper {
         values.put(DATE_OBJ,db_model.getDATE_OBJ());
         values.put(PICKUP_LOC,db_model.getPICKUP_LOC());
         values.put(DROP_LOC,db_model.getDROP_LOC());
+        values.put(DESC,db_model.getDESC());
         values.put(TOTAL_KM,db_model.getTOTAL_KM());
         values.put(PER_KM,db_model.getPER_KM());
         values.put(TOLL_CHARGES,db_model.getTOLL_CHARGES());
@@ -124,12 +127,13 @@ public class DBhelper extends SQLiteOpenHelper {
                 String dateObj=c.getString(7);
                 String pickupLoc=c.getString(8);
                 String dropLoc=c.getString(9);
-                int totalKm=c.getInt(10);
-                int perKm=c.getInt(11);
-                int tollCharges=c.getInt(12);
-                int totalFar=c.getInt(13);
+                String description=c.getString(10);
+                int totalKm=c.getInt(11);
+                int perKm=c.getInt(12);
+                int tollCharges=c.getInt(13);
+                int totalFar=c.getInt(14);
 
-                data.add(new DB_Model(id,vehicle,date,day,month,monthTxt,year,dateObj,pickupLoc,dropLoc,totalKm,perKm,tollCharges,totalFar));
+                data.add(new DB_Model(id,vehicle,date,day,month,monthTxt,year,dateObj,pickupLoc,dropLoc,description,totalKm,perKm,tollCharges,totalFar));
             }while (c.moveToNext());
         }
         c.close();
@@ -148,6 +152,7 @@ public class DBhelper extends SQLiteOpenHelper {
                            String dateObj,
                            String pickupLoc,
                            String dropLoc,
+                           String description,
                            int totalKm,
                            int perKm,
                            String tollCharges,
@@ -164,6 +169,7 @@ public class DBhelper extends SQLiteOpenHelper {
         values.put(DATE_OBJ,dateObj);
         values.put(PICKUP_LOC,pickupLoc);
         values.put(DROP_LOC,dropLoc);
+        values.put(DESC,description);
         values.put(TOTAL_KM,totalKm);
         values.put(PER_KM,perKm);
         values.put(TOLL_CHARGES,tollCharges);
