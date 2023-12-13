@@ -24,6 +24,7 @@ public class DBhelper extends SQLiteOpenHelper {
     public static final String DATE_OBJ = "dateObj";
     public static final String PICKUP_LOC = "pickupLoc";
     public static final String DROP_LOC = "dropLoc";
+    public static final String DESC = "description";
     public static final String TOTAL_KM = "totalKm";
     public static final String PER_KM = "perKm";
     public static final String TOLL_CHARGES = "tollCharges";
@@ -51,12 +52,13 @@ public class DBhelper extends SQLiteOpenHelper {
     public static final String IS_DATEMODEL = "isDateModel";
     public static final String T_PIC_DROP_MODEL = "picDropModel";
     public static final String IS_PICDROPMODEL = "isPicDropModel";
+    public static final String T_DESC = "description";
     public static final String T_TOTAL_KM = "totalKm";
     public static final String IS_TOTALKM = "isTotalKm";
     public static final String T_PER_KM = "perKm";
     public static final String IS_PER_KM = "isPerKm";
     public static final String T_TOLL_CHARGES = "tollCharges";
-    public static final String is_TOLL_CHARGES = "isTollCharges";
+    public static final String IS_TOLL_CHARGES = "isTollCharges";
     public static final String T_TOTAL_FAR = "totalFar";
     public static final String IS_TOTAL_FAR = "isTotalFar";
     public static final String T_PROGRESS_VALUE = "progressValue";
@@ -79,6 +81,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 DATE_OBJ + " DATE, " +
                 PICKUP_LOC + " TEXT, " +
                 DROP_LOC + " TEXT, " +
+                DESC + " TEXT, " +
                 TOTAL_KM + " INTEGER, " +
                 PER_KM + " INTEGER, " +
                 TOLL_CHARGES + " INTEGER, " +
@@ -106,16 +109,18 @@ public class DBhelper extends SQLiteOpenHelper {
                 IS_DATEMODEL + " BOOLEAN, " +
                 T_PIC_DROP_MODEL + " TEXT, " +
                 IS_PICDROPMODEL + " BOOLEAN, " +
+                T_DESC + " TEXT, " +
                 T_TOTAL_KM + " INTEGER, " +
                 IS_TOTALKM + " BOOLEAN, " +
                 T_PER_KM + " INTEGER, " +
                 IS_PER_KM + " BOOLEAN, " +
                 T_TOLL_CHARGES + " INTEGER, " +
-                is_TOLL_CHARGES + "BOOLEAN, " +
-                T_TOTAL_FAR + "INTEGER, " +
-                IS_TOTAL_FAR + "BOOLEAN, " +
-                T_PROGRESS_VALUE + "INTEGER ) ";
+                IS_TOLL_CHARGES + " BOOLEAN, " + // Corrected column name
+                T_TOTAL_FAR + " INTEGER, " +    // Added space before INTEGER
+                IS_TOTAL_FAR + " BOOLEAN, " +   // Corrected column name and added space before BOOLEAN
+                T_PROGRESS_VALUE + " INTEGER ) ";
         db.execSQL(tempTable);
+
 
     }
 
@@ -138,6 +143,7 @@ public class DBhelper extends SQLiteOpenHelper {
         values.put(DATE_OBJ, db_model.getDATE_OBJ());
         values.put(PICKUP_LOC, db_model.getPICKUP_LOC());
         values.put(DROP_LOC, db_model.getDROP_LOC());
+        values.put(DESC, db_model.getDESC());
         values.put(TOTAL_KM, db_model.getTOTAL_KM());
         values.put(PER_KM, db_model.getPER_KM());
         values.put(TOLL_CHARGES, db_model.getTOLL_CHARGES());
@@ -165,12 +171,13 @@ public class DBhelper extends SQLiteOpenHelper {
                 String dateObj = c.getString(7);
                 String pickupLoc = c.getString(8);
                 String dropLoc = c.getString(9);
-                int totalKm = c.getInt(10);
-                int perKm = c.getInt(11);
-                int tollCharges = c.getInt(12);
-                int totalFar = c.getInt(13);
+                String desc = c.getString(10);
+                int totalKm = c.getInt(11);
+                int perKm = c.getInt(12);
+                int tollCharges = c.getInt(13);
+                int totalFar = c.getInt(14);
 
-                data.add(new DB_Model(id, vehicle, date, day, month, monthTxt, year, dateObj, pickupLoc, dropLoc, totalKm, perKm, tollCharges, totalFar));
+                data.add(new DB_Model(id, vehicle, date, day, month, monthTxt, year, dateObj, pickupLoc, dropLoc, desc, totalKm, perKm, tollCharges, totalFar));
             } while (c.moveToNext());
         }
         c.close();
@@ -189,6 +196,7 @@ public class DBhelper extends SQLiteOpenHelper {
                            String dateObj,
                            String pickupLoc,
                            String dropLoc,
+                           String desc,
                            int totalKm,
                            int perKm,
                            String tollCharges,
@@ -205,6 +213,7 @@ public class DBhelper extends SQLiteOpenHelper {
         values.put(DATE_OBJ, dateObj);
         values.put(PICKUP_LOC, pickupLoc);
         values.put(DROP_LOC, dropLoc);
+        values.put(DESC, desc);
         values.put(TOTAL_KM, totalKm);
         values.put(PER_KM, perKm);
         values.put(TOLL_CHARGES, tollCharges);
@@ -315,12 +324,13 @@ public class DBhelper extends SQLiteOpenHelper {
         values.put(IS_DATEMODEL, tempDataModel.isIS_DATEMODEL());
         values.put(T_PIC_DROP_MODEL, tempDataModel.getT_PIC_DROP_MODEL());
         values.put(IS_PICDROPMODEL, tempDataModel.isIS_PICDROPMODEL());
+        values.put(T_DESC, tempDataModel.getT_DESC());
         values.put(T_TOTAL_KM, tempDataModel.getT_TOTAL_KM());
         values.put(IS_TOTALKM, tempDataModel.isIS_TOTALKM());
         values.put(T_PER_KM, tempDataModel.getT_PER_KM());
         values.put(IS_PER_KM, tempDataModel.isIS_PER_KM());
         values.put(T_TOLL_CHARGES, tempDataModel.getT_TOLL_CHARGES());
-        values.put(is_TOLL_CHARGES, tempDataModel.isIs_TOLL_CHARGES());
+        values.put(IS_TOLL_CHARGES, tempDataModel.isIs_TOLL_CHARGES());
         values.put(T_TOTAL_FAR, tempDataModel.getT_TOTAL_FAR());
         values.put(IS_TOTAL_FAR, tempDataModel.isIS_TOTAL_FAR());
         values.put(T_PROGRESS_VALUE, tempDataModel.getT_PROGRESS_VALUE());
@@ -328,53 +338,189 @@ public class DBhelper extends SQLiteOpenHelper {
         DB.insert(TEMP_DATA_TABLE, null, values);
     }
 
-    public Temp_Data_Model getTempData(){
-        SQLiteDatabase DB=this.getReadableDatabase();
-        String filterQuery="SELECT * FROM "+TEMP_DATA_TABLE ;
-        Cursor c=DB.rawQuery(filterQuery,null);
-        Temp_Data_Model tempDataModel=null;
+    public Temp_Data_Model getTempData() {
+        SQLiteDatabase DB = this.getReadableDatabase();
+        String filterQuery = "SELECT * FROM " + TEMP_DATA_TABLE;
+        Cursor c = DB.rawQuery(filterQuery, null);
+        Temp_Data_Model tempDataModel = null;
 
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
             do {
-                int T_COLUMN_ID=c.getInt(1);
-                String T_VEHICLE=c.getString(2);
-                boolean IS_VEHICLE=(c.getInt(3)==1);
-                String T_DATE_MODEL=c.getString(4);
-                boolean IS_DATEMODEL=(c.getInt(5)==1);
-                String T_PIC_DROP_MODEL=c.getString(6);
-                boolean IS_PICDROPMODEL=(c.getInt(7)==1);
-                int T_TOTAL_KM=c.getInt(7);
-                boolean IS_TOTALKM=(c.getInt(7)==1);
-                int T_PER_KM=c.getInt(7);
-                boolean IS_PER_KM=(c.getInt(7)==1);
-                int T_TOLL_CHARGES=c.getInt(7);
-                boolean is_TOLL_CHARGES=(c.getInt(7)==1);
-                int T_TOTAL_FAR=c.getInt(7);
-                boolean IS_TOTAL_FAR=(c.getInt(7)==1);
-                int T_PROGRESS_VALUE=c.getInt(7);
+                int T_COLUMN_ID = c.getInt(0);
+                String T_VEHICLE = c.getString(1);
+                boolean IS_VEHICLE = (c.getInt(2) == 1);
+                String T_DATE_MODEL = c.getString(3);
+                boolean IS_DATEMODEL = (c.getInt(4) == 1);
+                String T_PIC_DROP_MODEL = c.getString(5);
+                boolean IS_PICDROPMODEL = (c.getInt(6) == 1);
+                String T_DESC = c.getString(7);
+                int T_TOTAL_KM = c.getInt(8);
+                boolean IS_TOTALKM = (c.getInt(9) == 1);
+                int T_PER_KM = c.getInt(10);
+                boolean IS_PER_KM = (c.getInt(11) == 1);
+                int T_TOLL_CHARGES = c.getInt(12);
+                boolean IS_TOLL_CHARGES = (c.getInt(13) == 1);
+                int T_TOTAL_FAR = c.getInt(14);
+                boolean IS_TOTAL_FAR = (c.getInt(15) == 1);
+                int T_PROGRESS_VALUE = c.getInt(16);
 
-                tempDataModel =new Temp_Data_Model(T_COLUMN_ID,
+                tempDataModel = new Temp_Data_Model(T_COLUMN_ID,
                         T_VEHICLE,
                         IS_VEHICLE,
                         T_DATE_MODEL,
                         IS_DATEMODEL,
                         T_PIC_DROP_MODEL,
                         IS_PICDROPMODEL,
+                        T_DESC,
                         T_TOTAL_KM,
                         IS_TOTALKM,
                         T_PER_KM,
                         IS_PER_KM,
                         T_TOLL_CHARGES,
-                        is_TOLL_CHARGES,
+                        IS_TOLL_CHARGES,
                         T_TOTAL_FAR,
                         IS_TOTAL_FAR,
                         T_PROGRESS_VALUE);
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
         c.close();
         return tempDataModel;
 
     }
+
+    /*public void updateAllTempData(int TCOLUMN_ID,
+                                  String TVEHICLE,
+                                  boolean ISVEHICLE,
+                                  String TDATE_MODEL,
+                                  boolean ISDATEMODEL,
+                                  String TPIC_DROP_MODEL,
+                                  boolean ISPICDROPMODEL,
+                                  String TDESC,
+                                  int TTOTAL_KM,
+                                  boolean ISTOTALKM,
+                                  int TPER_KM,
+                                  boolean ISPER_KM,
+                                  int TTOLL_CHARGES,
+                                  boolean ISTOLL_CHARGES,
+                                  int TTOTAL_FAR,
+                                  boolean ISTOTAL_FAR,
+                                  int TPROGRESS_VALUE) {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(T_VEHICLE, TVEHICLE);
+        values.put(IS_VEHICLE, ISVEHICLE);
+        values.put(T_DATE_MODEL, TDATE_MODEL);
+        values.put(IS_DATEMODEL, ISDATEMODEL);
+        values.put(T_PIC_DROP_MODEL, TPIC_DROP_MODEL);
+        values.put(IS_PICDROPMODEL, ISPICDROPMODEL);
+        values.put(T_DESC, TDESC);
+        values.put(T_TOTAL_KM, TTOTAL_KM);
+        values.put(IS_TOTALKM, ISTOTALKM);
+        values.put(T_PER_KM, TPER_KM);
+        values.put(IS_PER_KM, ISPER_KM);
+        values.put(T_TOLL_CHARGES, TTOLL_CHARGES);
+        values.put(IS_TOLL_CHARGES, ISTOLL_CHARGES);
+        values.put(T_TOTAL_FAR, TTOTAL_FAR);
+        values.put(IS_TOTAL_FAR, ISTOTAL_FAR);
+        values.put(T_PROGRESS_VALUE, TPROGRESS_VALUE);
+
+        DB.update(V_TABLE, values, COLUMN_ID + "=" + TCOLUMN_ID, null);
+
+    }*/
+
+    public void updateAllTempData(Temp_Data_Model tempDataModel,int TCOLUMN_ID) {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(T_VEHICLE, tempDataModel.getT_VEHICLE());
+        values.put(IS_VEHICLE, tempDataModel.isIS_VEHICLE());
+        values.put(T_DATE_MODEL, tempDataModel.getT_DATE_MODEL());
+        values.put(IS_DATEMODEL, tempDataModel.isIS_DATEMODEL());
+        values.put(T_PIC_DROP_MODEL, tempDataModel.getT_PIC_DROP_MODEL());
+        values.put(IS_PICDROPMODEL, tempDataModel.isIS_PICDROPMODEL());
+        values.put(T_DESC, tempDataModel.getT_DESC());
+        values.put(T_TOTAL_KM, tempDataModel.getT_TOTAL_KM());
+        values.put(IS_TOTALKM, tempDataModel.isIS_TOTALKM());
+        values.put(T_PER_KM, tempDataModel.getT_PER_KM());
+        values.put(IS_PER_KM, tempDataModel.isIS_PER_KM());
+        values.put(T_TOLL_CHARGES, tempDataModel.getT_TOLL_CHARGES());
+        values.put(IS_TOLL_CHARGES, tempDataModel.isIs_TOLL_CHARGES());
+        values.put(T_TOTAL_FAR, tempDataModel.getT_TOTAL_FAR());
+        values.put(IS_TOTAL_FAR, tempDataModel.isIS_TOTAL_FAR());
+        values.put(T_PROGRESS_VALUE, tempDataModel.getT_PROGRESS_VALUE());
+
+        DB.update(TEMP_DATA_TABLE, values, COLUMN_ID + "=" + TCOLUMN_ID, null);
+
+    }
+
+    public String getTempDataString(int id, String columnName) {
+        SQLiteDatabase DB = this.getReadableDatabase();
+
+        String filterQuery = "SELECT * FROM " + TEMP_DATA_TABLE +
+                " WHERE " + T_COLUMN_ID + " = ? AND " + columnName + " = ?";
+
+        // Convert id to string
+        String idString = String.valueOf(id);
+
+        Cursor c = DB.rawQuery(filterQuery, new String[]{idString, columnName});
+
+        String data = "";
+
+        int columnIndex = c.getColumnIndex(columnName);
+
+        if (columnIndex != -1 && c.moveToFirst()) {
+            do {
+                // Use the actual column name from your table
+                String columnData = c.getString(columnIndex);
+                data += columnData + "\n";
+            } while (c.moveToNext());
+        }
+
+        // Close the cursor
+        c.close();
+
+        return data;
+    }
+
+
+    public void updateTempDataString(int id, String columnName, String newValue) {
+        SQLiteDatabase DB = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(columnName, newValue);
+
+        String whereClause = T_COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        // Update the data in the table
+        DB.update(TEMP_DATA_TABLE, values, whereClause, whereArgs);
+
+        // Close the database connection
+        DB.close();
+    }
+
+    public void updateTempDataInt(int id, String columnName, int newValue) {
+        SQLiteDatabase DB = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(columnName, newValue);
+
+        String whereClause = T_COLUMN_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        // Update the data in the table
+        DB.update(TEMP_DATA_TABLE, values, whereClause, whereArgs);
+
+        // Close the database connection
+        DB.close();
+    }
+
+    public void deleteTempData(int id) {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        String query = " DELETE FROM " + TEMP_DATA_TABLE + " WHERE " + T_COLUMN_ID + "=" + id;
+        DB.execSQL(query);
+        DB.close();
+    }
+
 
 }
 

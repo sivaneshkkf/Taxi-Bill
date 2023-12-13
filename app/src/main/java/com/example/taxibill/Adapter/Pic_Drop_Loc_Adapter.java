@@ -110,7 +110,7 @@ public class Pic_Drop_Loc_Adapter extends RecyclerView.Adapter<Pic_Drop_Loc_Adap
             }
         });
 
-        binding.picLoc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*binding.picLoc.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
@@ -138,7 +138,7 @@ public class Pic_Drop_Loc_Adapter extends RecyclerView.Adapter<Pic_Drop_Loc_Adap
                     }
                 }
             }
-        });
+        });*/
 
         /*binding.picLoc.setOnClickListener(new View.OnClickListener() {
             @Override

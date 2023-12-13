@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +16,13 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.example.taxibill.DB.DBhelper;
+import com.example.taxibill.DB.Temp_Data_Model;
 import com.example.taxibill.Fragment.Add_Fragment;
 import com.example.taxibill.Fragment.Home_Fragment;
 import com.example.taxibill.Myutils.StatusBar;
+import com.example.taxibill.Utils.CommonConstants;
+import com.example.taxibill.Utils.MyPrefs;
 import com.example.taxibill.databinding.ActivityMainBinding;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     Activity activity;
     Home_Fragment homeFragment=new Home_Fragment();
     Add_Fragment addFragment=new Add_Fragment();
+    DBhelper dBhelper;
+    SQLiteDatabase db;
     View rootView;
 
     @Override
@@ -41,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         Window w=getWindow();
         StatusBar.setColorStatusBar(w,activity);
+
+        dBhelper=new DBhelper(this);
+        db=dBhelper.getReadableDatabase();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_home,homeFragment).commit();
 
@@ -61,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_home,addFragment).commit();
+
+                if(MyPrefs.getInstance(activity).getBoolean(CommonConstants.isTableCreated)==false){
+                    Temp_Data_Model tempDataModel=new Temp_Data_Model(0,"",true,"",true,"",true,"",0,true,0,true,0,true,0,true,0);
+                    dBhelper.InsertTempData(tempDataModel);
+                    MyPrefs.getInstance(activity).putBoolean(CommonConstants.isTableCreated,true);
+                }
             }
         });
 

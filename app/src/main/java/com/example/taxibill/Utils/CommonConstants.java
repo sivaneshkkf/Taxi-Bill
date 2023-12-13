@@ -34,7 +34,8 @@ public interface CommonConstants {
             totalFar="totalFar",
             picDropLoc="picDropLoc",
             locVal="locVal",
-            progressVal="progressVal";
+            progressVal="progressVal",
+            isTableCreated="isTableCreated";
 
 String FOLDER_NAME="Savings";
 

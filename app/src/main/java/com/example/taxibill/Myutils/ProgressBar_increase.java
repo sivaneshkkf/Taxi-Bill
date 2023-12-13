@@ -43,9 +43,9 @@ public class ProgressBar_increase {
 
     }
 
-    public static void Increase(int percentage, ProgressBar progressBar,long delayMillis){
-
-        for (int i=0; i<=percentage;i++){
+    public static void Increase(int value,int percentage, ProgressBar progressBar,long delayMillis){
+        int val=value;
+        for (int i=val; i<=percentage;i++){
             final int iteration=i;
 
             handler.postDelayed(new Runnable() {

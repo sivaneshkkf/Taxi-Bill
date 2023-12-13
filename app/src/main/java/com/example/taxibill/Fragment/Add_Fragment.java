@@ -31,11 +31,13 @@ import androidx.fragment.app.Fragment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -50,8 +52,11 @@ import com.example.taxibill.DB.DB_Model;
 import com.example.taxibill.DB.DBhelper;
 import com.example.taxibill.DB.Date_Model;
 import com.example.taxibill.DB.PicDrop_Model;
+import com.example.taxibill.DB.Temp_Data_Model;
 import com.example.taxibill.DB.Vehicle_Model;
 import com.example.taxibill.MainActivity;
+import com.example.taxibill.Myutils.ProgressBar_increase;
+import com.example.taxibill.Myutils.ValueChangeListener;
 import com.example.taxibill.R;
 import com.example.taxibill.Utils.CommonConstants;
 import com.example.taxibill.Utils.MyPrefs;
@@ -62,11 +67,14 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.time.Month;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -79,6 +87,7 @@ public class Add_Fragment extends Fragment {
     DBhelper dBhelper;
     DB_Model db_model;
     SQLiteDatabase db;
+    Temp_Data_Model tempDataModel=null;
     String YEAR="",MONTH="";
     List<String> vehicleList=new ArrayList<>();
     List<Vehicle_Model> list=new ArrayList<>();
@@ -92,6 +101,9 @@ public class Add_Fragment extends Fragment {
     String vehicle="",date="",day="",month="",monthTxt,year="",dateObj="",pickupLoc="",dropLoc="",description="",totalKm="",perKm="",tollCharges="",totalFar="";
     int totalKmINT=0,perKmINT=0,tollChargesINT=0,totalFarINT=0;
     int progressVal=0;
+    int val=0;
+    ValueChangeListener myObject = new ValueChangeListener();
+    int t_ColumnId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,15 +137,6 @@ public class Add_Fragment extends Fragment {
 
         allData=dBhelper.getEveryOne(YEAR,MONTH);
 
-        if(!MyPrefs.getInstance(getActivity()).getString(CommonConstants.picDropLoc).equalsIgnoreCase("")){
-            json = MyPrefs.getInstance(getActivity()).getString(CommonConstants.picDropLoc);
-            Type listType = new TypeToken<List<PicDrop_Model>>(){}.getType();
-            picDropModelsList = gson.fromJson(json, listType);
-            locVal=picDropModelsList.size();
-        }else{
-            picDropModelsList.add(new PicDrop_Model(String.valueOf(locVal),"",""));
-        }
-
         getSharedPrefValues();
         /*if(MyPrefs.getInstance(getActivity()).getInt(CommonConstants.locVal)>0){
            //locVal=MyPrefs.getInstance(getActivity()).getInt(CommonConstants.locVal);
@@ -146,7 +149,7 @@ public class Add_Fragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 vehicle=vehicleList.get(position);
-
+                tempDataModel.setT_VEHICLE(vehicle);
             }
 
             @Override
@@ -168,11 +171,24 @@ public class Add_Fragment extends Fragment {
                 if(s.length()>0){
                     val=Integer.parseInt(s.toString().trim());
                     totalKmINT=val;
-                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.totalKm,totalKmINT);
+
+                    tempDataModel.setT_TOTAL_KM(totalKmINT);
+                    if(tempDataModel.isIS_TOTALKM()){
+                        progressVal+=valArray[3];
+                        tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                        tempDataModel.setIS_TOTALKM(false);
+                        myObject.setMyValue(progressVal);
+                    }
                 }else{
                     val=0;
                     totalKmINT=val;
-                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.totalKm,totalKmINT);
+                    tempDataModel.setT_TOTAL_KM(totalKmINT);
+                    if(!tempDataModel.isIS_TOTALKM()){
+                        progressVal-=valArray[3];
+                        tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                        tempDataModel.setIS_TOTALKM(true);
+                        myObject.setMyValue(progressVal);
+                    }
                 }
             }
 
@@ -196,11 +212,26 @@ public class Add_Fragment extends Fragment {
                 if(s.length()>0){
                     val=Integer.parseInt(s.toString().trim());
                     perKmINT=val;
-                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.perKm,perKmINT);
+
+                    tempDataModel.setT_PER_KM(perKmINT);
+                    if(tempDataModel.isIS_PER_KM()){
+                        progressVal+=valArray[4];
+                        tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                        tempDataModel.setIS_PER_KM(false);
+                        myObject.setMyValue(progressVal);
+                    }
+
                 }else{
                     val=0;
                     perKmINT=val;
-                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.perKm,perKmINT);
+
+                    tempDataModel.setT_PER_KM(perKmINT);
+                    if(!tempDataModel.isIS_PER_KM()){
+                        progressVal-=valArray[4];
+                        tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                        tempDataModel.setIS_PER_KM(true);
+                        myObject.setMyValue(progressVal);
+                    }
                 }
 
             }
@@ -225,12 +256,27 @@ public class Add_Fragment extends Fragment {
                 if(s.length()>0){
                     val=Integer.parseInt(s.toString().trim());
                     tollChargesINT=val;
-                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.tollCharges,tollChargesINT);
+
+                    tempDataModel.setT_TOLL_CHARGES(tollChargesINT);
+                    if(tempDataModel.isIs_TOLL_CHARGES()){
+                        progressVal+=valArray[5];
+                        tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                        tempDataModel.setIs_TOLL_CHARGES(false);
+                        myObject.setMyValue(progressVal);
+                    }
+
 
                 }else{
                     val=0;
                     tollChargesINT=val;
-                    MyPrefs.getInstance(getActivity()).putInt(CommonConstants.tollCharges,tollChargesINT);
+
+                    tempDataModel.setT_TOLL_CHARGES(tollChargesINT);
+                    if(!tempDataModel.isIs_TOLL_CHARGES()){
+                        progressVal-=valArray[5];
+                        tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                        tempDataModel.setIs_TOLL_CHARGES(true);
+                        myObject.setMyValue(progressVal);
+                    }
                 }
             }
 
@@ -269,9 +315,15 @@ public class Add_Fragment extends Fragment {
                         Gson gson = new Gson();
                         String jsonDate = gson.toJson(dateModel);
 
-                        MyPrefs.getInstance(getActivity()).putString(CommonConstants.date, jsonDate);
-                        progressVal+=100/6;
-                        MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+                        tempDataModel.setT_DATE_MODEL(jsonDate);
+                        if(tempDataModel.isIS_DATEMODEL()){
+                            progressVal+=valArray[1];
+                            tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                            tempDataModel.setIS_DATEMODEL(false);
+                            myObject.setMyValue(progressVal);
+                        }
+
+
 
                         Log.i("date_formats", "date: "+date);
                         Log.i("date_formats", "month: "+month);
@@ -334,10 +386,14 @@ public class Add_Fragment extends Fragment {
                 Gson gson = new Gson();
                 String json = gson.toJson(picDropModelsList);
 
-                MyPrefs.getInstance(getActivity()).putString(CommonConstants.picDropLoc, json);
+                tempDataModel.setT_PIC_DROP_MODEL(json);
+                if(tempDataModel.isIS_PICDROPMODEL()){
+                    progressVal+=valArray[2];
+                    tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                    tempDataModel.setIS_PICDROPMODEL(false);
+                    myObject.setMyValue(progressVal);
+                }
 
-                progressVal+=100/6;
-                MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
 
                 if (v.getId() == R.id.delete) {
                     if(picDropModelsList.size()>1) {
@@ -355,7 +411,7 @@ public class Add_Fragment extends Fragment {
                     }
                 }
 
-                if(v.getId()==R.id.picLoc){
+                /*if(v.getId()==R.id.picLoc){
                     if(i==0){
                         if(!picDropModelsList.get(i).getPicLoc().equalsIgnoreCase("")){
                             progressVal+=(100/6)/2;
@@ -377,19 +433,25 @@ public class Add_Fragment extends Fragment {
                         }
 
                     }
-                }
+                }*/
             }
         });
         binding.recycelrPicDropLoc.setAdapter(picDropLocAdapter);
 
-        editTxt(binding.desc,CommonConstants.desc,binding.descError);
+        editTxt(binding.desc,binding.descError);
 
         if(vehicleList.size()>0){
             binding.vehicleSpinner.setSelection(0);
             vehicle=vehicleList.get(0);
-            MyPrefs.getInstance(getActivity()).putString(CommonConstants.vehicle,vehicle);
-            progressVal+=100/6;
-            MyPrefs.getInstance(getActivity()).putInt(CommonConstants.progressVal,progressVal);
+
+            tempDataModel.setT_VEHICLE(vehicle);
+            if(tempDataModel.isIS_VEHICLE()){
+                progressVal+=valArray[0];
+                tempDataModel.setT_PROGRESS_VALUE(progressVal);
+                tempDataModel.setIS_VEHICLE(false);
+                myObject.setMyValue(progressVal);
+            }
+
         }
 
         binding.submit.setOnClickListener(new View.OnClickListener() {
@@ -408,7 +470,7 @@ public class Add_Fragment extends Fragment {
                 }/*else if(pickupLoc.equalsIgnoreCase("")){
                    binding.pickupDropLocError.setText("Please Enter Pickup Location");
                    binding.pickupDropLocError.setVisibility(View.VISIBLE);
-                }*/else if(dropLoc.equalsIgnoreCase("")){
+                }*/else if(tempDataModel.isIS_PICDROPMODEL()){
                    binding.pickupDropLocError.setText("Please Enter Drop Location");
                    binding.pickupDropLocError.setVisibility(View.VISIBLE);
                 }else if(totalKm.equalsIgnoreCase("")){
@@ -420,7 +482,7 @@ public class Add_Fragment extends Fragment {
                    Intent intent=new Intent(getActivity(), MainActivity.class);
                    startActivity(intent);
 
-                   clearSharedPref();
+                   clearDB();
                 }
 
             }
@@ -432,7 +494,7 @@ public class Add_Fragment extends Fragment {
                 Intent intent=new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
 
-                clearSharedPref();
+                clearDB();
             }
         });
 
@@ -440,15 +502,15 @@ public class Add_Fragment extends Fragment {
         Glide.with(getActivity()).asGif().load(R.drawable.cargif).into(binding.gif);
 
 
-        binding.totalKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* binding.totalKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if(totalKmINT!=0){
+                    *//*if(totalKmINT!=0){
                         progressVal+=100/6;
                     }else{
                         progressVal-=100/6;
-                    }
+                    }*//*
                     Toast.makeText(getActivity(), ""+progressVal, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -457,11 +519,11 @@ public class Add_Fragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if(perKmINT!=0){
+                    *//*if(perKmINT!=0){
                         progressVal+=100/6;
                     }else{
                         progressVal-=100/6;
-                    }
+                    }*//*
                     Toast.makeText(getActivity(), ""+progressVal, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -470,19 +532,34 @@ public class Add_Fragment extends Fragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    if(tollChargesINT!=0){
+                   *//* if(tollChargesINT!=0){
                         progressVal+=100/6;
                     }else{
                         progressVal-=100/6;
-                    }
+                    }*//*
                     Toast.makeText(getActivity(), ""+progressVal, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });*/
+
+        // Add a property change listener
+        myObject.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("myValue".equals(evt.getPropertyName())) {
+                    System.out.println("myValue changed from " + evt.getOldValue() + " to " + evt.getNewValue());
+                    // Your action here
+                    int oldvalue=ValueChangeListener.myValue;
+                    screenWidth=getScreenWidth();
+                    ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
+                    moveViewToPercentage(binding.gif, progressVal);
                 }
             }
         });
 
     }
 
-    public void editTxt(EditText editText, String constant, TextView txtview){
+    public void editTxt(EditText editText, TextView txtview){
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -493,7 +570,8 @@ public class Add_Fragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 txtview.setVisibility(View.INVISIBLE);
-                MyPrefs.getInstance(getActivity()).putString(constant,s.toString());
+                tempDataModel.setT_DESC(s.toString().trim());
+
             }
 
             @Override
@@ -501,34 +579,10 @@ public class Add_Fragment extends Fragment {
 
             }
         });
+
     }
 
-    int val=0;
-    public int editTxtINT(EditText editText, String constant, TextView txtview){
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                txtview.setVisibility(View.INVISIBLE);
-                MyPrefs.getInstance(getActivity()).putString(constant,s.toString());
-                val=Integer.parseInt(s.toString().trim());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                totalFarINT=(totalKmINT*perKmINT)+tollChargesINT;
-                binding.totalFar.setText(String.valueOf(totalFarINT));
-            }
-        });
-        return val;
-    }
-
-    public void getSharedPrefValues(){
+    /*public void getSharedPrefValues(){
         vehicle=MyPrefs.getInstance(getActivity()).getString(CommonConstants.vehicle);
         description=MyPrefs.getInstance(getActivity()).getString(CommonConstants.desc);
 
@@ -588,17 +642,154 @@ public class Add_Fragment extends Fragment {
         totalFarINT=(totalKmINT*perKmINT)+tollChargesINT;
         binding.totalFar.setText("₹"+String.valueOf(totalFarINT));
 
+    }*/
+
+    public void getSharedPrefValues(){
+
+        calculation();
+
+        tempDataModel=dBhelper.getTempData();
+
+        t_ColumnId= tempDataModel.getT_COLUMN_ID();
+
+        vehicle=tempDataModel.getT_VEHICLE();
+        description=tempDataModel.getT_DESC();
+        progressVal=tempDataModel.getT_PROGRESS_VALUE();
+        myObject.setMyValue(progressVal);
+
+        totalKmINT=tempDataModel.getT_TOTAL_KM();
+        totalKm=String.valueOf(totalKmINT);
+
+        perKmINT= tempDataModel.getT_PER_KM();
+        perKm=String.valueOf(perKmINT);
+
+        tollChargesINT= tempDataModel.getT_TOLL_CHARGES();
+        tollCharges=String.valueOf(tollChargesINT);
+
+
+        if(!tempDataModel.getT_PIC_DROP_MODEL().equalsIgnoreCase("")){
+            json = tempDataModel.getT_PIC_DROP_MODEL();
+            Type listType = new TypeToken<List<PicDrop_Model>>(){}.getType();
+            picDropModelsList = gson.fromJson(json, listType);
+            locVal=picDropModelsList.size();
+        }else{
+            picDropModelsList.clear();
+            locVal=1;
+            picDropModelsList.add(new PicDrop_Model(String.valueOf(locVal),"",""));
+        }
+
+        String jsonDate = tempDataModel.getT_DATE_MODEL();
+        if (!jsonDate.isEmpty()) {
+            // Deserialize only if the string is not empty
+            Date_Model dateModel = gson.fromJson(jsonDate, Date_Model.class);
+            Log.i("dateModel_dateModel", "dateModel: " + dateModel);
+
+            date=dateModel.getDate();
+            month=dateModel.getMonth();
+            year=dateModel.getYear();
+            dateObj=dateModel.getDateObj();
+            monthTxt=dateModel.getMonthTxt();
+            day=dateModel.getDay();
+            binding.date.setText(dateModel.getDateTxt());
+
+        }
+
+        Log.i("dateModel_dateModel", "vehicle: "+vehicle);
+        Log.i("dateModel_dateModel", "description: "+description);
+        Log.i("dateModel_dateModel", "totalKm: "+totalKm);
+        Log.i("dateModel_dateModel", "totalKmINT: "+totalKmINT);
+        Log.i("dateModel_dateModel", "perKm: "+perKm);
+        Log.i("dateModel_dateModel", "perKmINT: "+perKmINT);
+        Log.i("dateModel_dateModel", "tollCharges: "+tollCharges);
+        Log.i("dateModel_dateModel", "tollChargesINT: "+tollChargesINT);
+        Log.i("dateModel_dateModel", "picloc: "+picDropModelsList);
+
+        if(!vehicle.equalsIgnoreCase("")){
+            int pos=vehicleList.indexOf(vehicle);
+            binding.vehicleSpinner.setSelection(pos);
+        }
+
+        if(!totalKm.equalsIgnoreCase("0") && !totalKm.equalsIgnoreCase("")){
+            binding.totalKm.setText(totalKm);
+        }
+        if(!description.equalsIgnoreCase("")){
+            binding.desc.setText(description);
+        }
+        if(!perKm.equalsIgnoreCase("0") && !perKm.equalsIgnoreCase("")){
+            binding.perKm.setText(perKm);
+        }
+        if(!tollCharges.equalsIgnoreCase("0") && !tollCharges.equalsIgnoreCase("")){
+            binding.tollCharges.setText(tollCharges);
+        }
+
+        totalFarINT=(totalKmINT*perKmINT)+tollChargesINT;
+        binding.totalFar.setText("₹"+totalFarINT);
+
     }
 
-   public void clearSharedPref(){
-      MyPrefs.getInstance(getActivity()).putString(CommonConstants.vehicle,"");
-      MyPrefs.getInstance(getActivity()).putString(CommonConstants.date,"");
-      MyPrefs.getInstance(getActivity()).putString(CommonConstants.picDropLoc,"");
-      MyPrefs.getInstance(getActivity()).putString(CommonConstants.dropLoc,"");
-      MyPrefs.getInstance(getActivity()).putString(CommonConstants.desc,"");
-      MyPrefs.getInstance(getActivity()).putInt(CommonConstants.totalKm,0);
-      MyPrefs.getInstance(getActivity()).putInt(CommonConstants.perKm,0);
-      MyPrefs.getInstance(getActivity()).putInt(CommonConstants.tollCharges,0);
+   public void clearDB(){
+        dBhelper.deleteTempData(tempDataModel.getT_COLUMN_ID());
+        MyPrefs.getInstance(getActivity()).putBoolean(CommonConstants.isTableCreated,false);
+        MyPrefs.getInstance(getActivity()).putInt(CommonConstants.locVal,0);
    }
 
+   public void updateTempData(){
+       /*Temp_Data_Model tempDataModel=new Temp_Data_Model(t_ColumnId,vehicle,true,"",true,"",true,"",0,true,0,true,0,true,0,true,0);*/
+        dBhelper.updateAllTempData(tempDataModel,t_ColumnId);
+   }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTempData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        updateTempData();
+    }
+
+
+    int total = 100;
+    int parts = 6;
+    int[] valArray = new int[parts];
+    public void calculation(){
+
+        int quotient = total / parts;
+        int remainder = total % parts;
+
+        System.out.println("Parts: " + quotient);
+        System.out.println("Parts: " + remainder);
+
+        // Distribute the parts
+
+        for (int i = 0; i < parts; i++) {
+            valArray[i] = quotient;
+            if (remainder > 0) {
+                valArray[i]++;
+                remainder--;
+            }
+        }
+
+        // Display the parts
+        System.out.println("Parts: " + Arrays.toString(valArray));
+
+    }
+
+    private void moveViewToPercentage(View view, int percentage) {
+        // Calculate the new x-coordinate based on the percentage
+        float newX = (percentage / 100.0f) * screenWidth;
+
+        // Update the translationX property
+        view.setTranslationX(newX);
+    }
+
+    private float screenWidth;
+    private float getScreenWidth() {
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
+        return metrics.widthPixels;
+    }
 }

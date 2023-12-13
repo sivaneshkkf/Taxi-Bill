@@ -406,7 +406,6 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:indeterminateOnly="false"
-                    android:progress="50"
                     android:progressBackgroundTint="#E1DDFB"
                     android:progressDrawable="@drawable/progress_bar_linear"
                     android:progressTint="@color/endcolor" />
