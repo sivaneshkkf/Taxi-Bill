@@ -1,6 +1,8 @@
 package com.example.taxibill;
 
 import static com.example.taxibill.Fragment.Add_Fragment.linBtn;
+import static com.example.taxibill.Fragment.Add_Fragment.myObject;
+import static com.example.taxibill.Fragment.Add_Fragment.tempDataModel;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,8 +90,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 int heightDiff = rootView.getRootView().getHeight() - rootView.getHeight();
-                //Toast.makeText(activity, ""+heightDiff, Toast.LENGTH_SHORT).show();
-                if (heightDiff > 200) { // Adjust the threshold as needed
+               // Toast.makeText(activity, ""+heightDiff, Toast.LENGTH_SHORT).show();
+               /* Log.i("heightDiff", "heightDiff: "+heightDiff);
+                Log.i("heightDiff", "heightDiff: "+rootView.getRootView().getHeight());
+                Log.i("heightDiff", "heightDiff: "+rootView.getHeight());*/
+                if (heightDiff > 500) { // Adjust the threshold as needed
                     binding.bottomAppBar.setVisibility(View.GONE);
                     binding.startBtn.setVisibility(View.GONE);
                     if(linBtn!=null){

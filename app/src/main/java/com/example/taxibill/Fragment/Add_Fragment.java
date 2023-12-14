@@ -17,6 +17,7 @@ import static com.example.taxibill.Utils.CommonConstants.pickupLoc;
 import static com.example.taxibill.Utils.CommonConstants.tollCharges;
 import static com.example.taxibill.Utils.CommonConstants.totalKm;
 
+import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +44,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,7 +89,7 @@ public class Add_Fragment extends Fragment {
     DBhelper dBhelper;
     DB_Model db_model;
     SQLiteDatabase db;
-    Temp_Data_Model tempDataModel=null;
+    public static Temp_Data_Model tempDataModel=null;
     String YEAR="",MONTH="";
     List<String> vehicleList=new ArrayList<>();
     List<Vehicle_Model> list=new ArrayList<>();
@@ -102,7 +104,7 @@ public class Add_Fragment extends Fragment {
     int totalKmINT=0,perKmINT=0,tollChargesINT=0,totalFarINT=0;
     int progressVal=0;
     int val=0;
-    ValueChangeListener myObject = new ValueChangeListener();
+    public static ValueChangeListener myObject = new ValueChangeListener();
     int t_ColumnId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -499,7 +501,7 @@ public class Add_Fragment extends Fragment {
         });
 
 
-        Glide.with(getActivity()).asGif().load(R.drawable.cargif).into(binding.gif);
+        Glide.with(getActivity()).asGif().load(R.drawable.car_gif).into(binding.gif);
 
 
        /* binding.totalKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -550,14 +552,47 @@ public class Add_Fragment extends Fragment {
                     System.out.println("myValue changed from " + evt.getOldValue() + " to " + evt.getNewValue());
                     // Your action here
                     int oldvalue=ValueChangeListener.myValue;
-                    screenWidth=getScreenWidth();
-                    ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
-                    moveViewToPercentage(binding.gif, progressVal);
+
+                    increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
+                    //ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
+                    animate(binding.gif,progressVal);
+                    binding.percentage.setText(progressVal+"%");
                 }
             }
         });
 
     }
+
+    public static void increaseProgressSmoothly(int startValue, int endValue, ProgressBar progressBar, long duration) {
+        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", startValue, endValue);
+        progressAnimator.setDuration(duration);
+        progressAnimator.start();
+    }
+    public void animate(View view, int percentage) {
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int translationX = (int) ((percentage / 100.0) * screenWidth);
+        int minus = (int) ((percentage / 100.0) * 130);
+
+        int p=binding.progressBar.getWidth();
+
+        // Convert 40dp to pixels
+        float pixelsToSubtract = getResources().getDisplayMetrics().density * minus;
+
+        // Subtract 40dp from the calculated translationX
+        translationX -= pixelsToSubtract;
+
+        Log.i("heightDiff", "heightDiff: " + screenWidth);
+        Log.i("heightDiff", "pixelsToSubtract: " + pixelsToSubtract);
+        Log.i("heightDiff", "translationX: " + translationX);
+        Log.i("heightDiff", "per: " + percentage);
+        Log.i("heightDiff", "minus: " + minus);
+        Log.i("heightDiff", "p: " + p);
+
+        ObjectAnimator animation = ObjectAnimator.ofFloat(view, "translationX", translationX);
+        animation.setDuration(2000);
+        animation.start();
+    }
+
 
     public void editTxt(EditText editText, TextView txtview){
 
@@ -654,8 +689,13 @@ public class Add_Fragment extends Fragment {
 
         vehicle=tempDataModel.getT_VEHICLE();
         description=tempDataModel.getT_DESC();
+
         progressVal=tempDataModel.getT_PROGRESS_VALUE();
-        myObject.setMyValue(progressVal);
+        int oldvalue=ValueChangeListener.myValue;
+        increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
+        //ProgressBar_increase.Increase(0,progressVal,binding.progressBar,10);
+        animate(binding.gif,progressVal);
+        binding.percentage.setText(progressVal+"%");
 
         totalKmINT=tempDataModel.getT_TOTAL_KM();
         totalKm=String.valueOf(totalKmINT);
@@ -777,19 +817,5 @@ public class Add_Fragment extends Fragment {
 
     }
 
-    private void moveViewToPercentage(View view, int percentage) {
-        // Calculate the new x-coordinate based on the percentage
-        float newX = (percentage / 100.0f) * screenWidth;
 
-        // Update the translationX property
-        view.setTranslationX(newX);
-    }
-
-    private float screenWidth;
-    private float getScreenWidth() {
-        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics metrics = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(metrics);
-        return metrics.widthPixels;
-    }
 }
