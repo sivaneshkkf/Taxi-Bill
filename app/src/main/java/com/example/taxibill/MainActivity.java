@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(item.getItemId()==R.id.home){
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_home,homeFragment).commit();
-                }if(item.getItemId()==R.id.shopping){
+                }/*if(item.getItemId()==R.id.shopping){
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_home,homeFragment).commit();
-                }
+                }*/
                 return true;
             }
         });

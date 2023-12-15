@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.AppCompat" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:fontFamily">@font/poppins_regular</item>
-        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:forceDarkAllowed">true</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >#ffffff</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
 
         <!--BottomSheetDialog-->
         <!--        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->
@@ -30,7 +30,7 @@
 
     </style>
 
-    <style name="Theme.TaxiBill" parent="Base.Theme.TaxiBill" />
+    <!--<style name="Theme.TaxiBill" parent="Base.Theme.TaxiBill" />-->
 
     <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>

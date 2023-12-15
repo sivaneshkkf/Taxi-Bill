@@ -4,21 +4,22 @@ public class Vehicle_Model {
     private int COLUMN_ID;
     private String VEHICLE_IMG;
     private String V_NUMBER;
-    private String DRIVER_NAME;
-    private String KM_RUNNING;
     private String V_MAKE;
     private String V_MODEL;
-
+    private String DRIVER_NAME;
+    private String MOBILE_NUMBER;
+    private String EMAIL;
     private String V_YEAR;
 
-    public Vehicle_Model(int COLUMN_ID, String VEHICLE_IMG, String v_NUMBER, String DRIVER_NAME, String KM_RUNNING, String v_MAKE, String v_MODEL, String v_YEAR) {
+    public Vehicle_Model(int COLUMN_ID, String VEHICLE_IMG, String v_NUMBER, String v_MAKE, String v_MODEL, String DRIVER_NAME, String MOBILE_NUMBER, String EMAIL, String v_YEAR) {
         this.COLUMN_ID = COLUMN_ID;
         this.VEHICLE_IMG = VEHICLE_IMG;
         V_NUMBER = v_NUMBER;
-        this.DRIVER_NAME = DRIVER_NAME;
-        this.KM_RUNNING = KM_RUNNING;
         V_MAKE = v_MAKE;
         V_MODEL = v_MODEL;
+        this.DRIVER_NAME = DRIVER_NAME;
+        this.MOBILE_NUMBER = MOBILE_NUMBER;
+        this.EMAIL = EMAIL;
         V_YEAR = v_YEAR;
     }
 
@@ -46,22 +47,6 @@ public class Vehicle_Model {
         V_NUMBER = v_NUMBER;
     }
 
-    public String getDRIVER_NAME() {
-        return DRIVER_NAME;
-    }
-
-    public void setDRIVER_NAME(String DRIVER_NAME) {
-        this.DRIVER_NAME = DRIVER_NAME;
-    }
-
-    public String getKM_RUNNING() {
-        return KM_RUNNING;
-    }
-
-    public void setKM_RUNNING(String KM_RUNNING) {
-        this.KM_RUNNING = KM_RUNNING;
-    }
-
     public String getV_MAKE() {
         return V_MAKE;
     }
@@ -76,6 +61,30 @@ public class Vehicle_Model {
 
     public void setV_MODEL(String v_MODEL) {
         V_MODEL = v_MODEL;
+    }
+
+    public String getDRIVER_NAME() {
+        return DRIVER_NAME;
+    }
+
+    public void setDRIVER_NAME(String DRIVER_NAME) {
+        this.DRIVER_NAME = DRIVER_NAME;
+    }
+
+    public String getMOBILE_NUMBER() {
+        return MOBILE_NUMBER;
+    }
+
+    public void setMOBILE_NUMBER(String MOBILE_NUMBER) {
+        this.MOBILE_NUMBER = MOBILE_NUMBER;
+    }
+
+    public String getEMAIL() {
+        return EMAIL;
+    }
+
+    public void setEMAIL(String EMAIL) {
+        this.EMAIL = EMAIL;
     }
 
     public String getV_YEAR() {

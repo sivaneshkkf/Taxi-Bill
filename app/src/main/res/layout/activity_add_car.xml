@@ -124,56 +124,6 @@
                 android:layout_marginTop="10dp"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Owner Name"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/driverName"
-                style="@style/Edit_textbox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:inputType="text" />
-
-            <TextView
-                android:id="@+id/driverNameError"
-                style="@style/error_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="KM Running"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/kmRunning"
-                style="@style/Edit_textbox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:inputType="text" />
-
-            <TextView
-                android:id="@+id/kmRunningError"
-                style="@style/error_msg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="invisible" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/poppins_medium"
                 android:text="Vehicle Make"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -213,6 +163,82 @@
 
             <TextView
                 android:id="@+id/vModelError"
+                style="@style/error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Owner Name"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/driverName"
+                style="@style/Edit_textbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/driverNameError"
+                style="@style/error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Mobile Number"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/mobileNumber"
+                style="@style/Edit_textbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:maxLength="10"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/mobileNumberError"
+                style="@style/error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="E-Mail"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/email"
+                style="@style/Edit_textbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/emailError"
                 style="@style/error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -48,7 +48,7 @@ public class AddCar_Activity extends AppCompatActivity {
     Activity activity;
     Vehicle_Model vehicleModel;
     String URI="";
-    String vehicle="",driverName="",kmRunning="",vModel="",vMake="",vYear="";
+    String vehicle="",driverName="",mobileNumber="",vModel="",vMake="",vYear="",email="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,10 +119,11 @@ public class AddCar_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 vehicle=binding.vehicle.getText().toString().trim().toUpperCase();
-                driverName=binding.driverName.getText().toString().trim();
-                kmRunning=binding.kmRunning.getText().toString().trim();
                 vMake=binding.vMake.getText().toString().trim();
                 vModel=binding.vModel.getText().toString().trim();
+                driverName=binding.driverName.getText().toString().trim();
+                mobileNumber=binding.mobileNumber.getText().toString().trim();
+                email=binding.mobileNumber.getText().toString().trim();
                 vYear=binding.vYearTv.getText().toString().trim();
 
                 if(URI.equalsIgnoreCase("")){
@@ -131,24 +132,27 @@ public class AddCar_Activity extends AppCompatActivity {
                 }else if(vehicle.equalsIgnoreCase("")){
                     binding.vehicleError.setText("Please Enter Vehilce Number");
                     binding.vehicleError.setVisibility(View.VISIBLE);
+                }else if(vMake.equalsIgnoreCase("")){
+                    binding.vMakeError.setText("Please Enter Vehicle Make");
+                    binding.vMakeError.setVisibility(View.VISIBLE);
+                }else if(vModel.equalsIgnoreCase("")){
+                    binding.vModelError.setText("Please Enter Vehicle Model");
+                    binding.vModelError.setVisibility(View.VISIBLE);
                 }else if(driverName.equalsIgnoreCase("")){
                     binding.driverNameError.setText("Please Enter Owner Name");
                     binding.driverNameError.setVisibility(View.VISIBLE);
-                }else if(kmRunning.equalsIgnoreCase("")){
-                    binding.kmRunningError.setText("Please Enter Owner Name");
-                    binding.kmRunningError.setVisibility(View.VISIBLE);
-                }else if(vMake.equalsIgnoreCase("")){
-                    binding.vMakeError.setText("Please Enter Owner Name");
-                    binding.vMakeError.setVisibility(View.VISIBLE);
-                }else if(vModel.equalsIgnoreCase("")){
-                    binding.vModelError.setText("Please Enter Owner Name");
-                    binding.vModelError.setVisibility(View.VISIBLE);
+                }else if(mobileNumber.equalsIgnoreCase("")){
+                    binding.mobileNumberError.setText("Please Enter Mobile Number");
+                    binding.mobileNumberError.setVisibility(View.VISIBLE);
+                }else if(mobileNumber.length()<10){
+                    binding.mobileNumberError.setText("Invalid Mobile Number");
+                    binding.mobileNumberError.setVisibility(View.VISIBLE);
                 }else if(vYear.equalsIgnoreCase("")){
-                    binding.vYearError.setText("Please Enter Owner Name");
+                    binding.vYearError.setText("Please Enter Vehicle Year");
                     binding.vYearError.setVisibility(View.VISIBLE);
                 }else{
 
-                    vehicleModel=new Vehicle_Model(0,URI,vehicle,driverName,kmRunning,vMake,vModel,vYear);
+                    vehicleModel=new Vehicle_Model(0,URI,vehicle,vMake,vModel,driverName,mobileNumber,email,vYear);
                     dBhelper.InsertVehicle(vehicleModel);
                     Intent intent=new Intent(activity, MainActivity.class);
                     startActivity(intent);

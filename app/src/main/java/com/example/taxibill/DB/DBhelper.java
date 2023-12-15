@@ -36,10 +36,11 @@ public class DBhelper extends SQLiteOpenHelper {
     public static final String V_COLUMN_ID = "columnId";
     public static final String VEHICLE_IMG = "vehicleImg";
     public static final String V_NUMBER = "vehicleNumber";
-    public static final String DRIVER_NAME = "driverName";
-    public static final String KM_RUNNING = "kmRunning";
     public static final String V_MAKE = "vehicleMake";
     public static final String V_MODEL = "vehicleModel";
+    public static final String DRIVER_NAME = "driverName";
+    public static final String MOBILE_NUMBER = "mobileNumber";
+    public static final String EMAIL = "email";
     public static final String V_YEAR = "vehicleYear";
 
 
@@ -93,10 +94,11 @@ public class DBhelper extends SQLiteOpenHelper {
                 V_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 VEHICLE_IMG + " TEXT, " +
                 V_NUMBER + " TEXT, " +
-                DRIVER_NAME + " TEXT, " +
-                KM_RUNNING + " TEXT, " +
                 V_MAKE + " TEXT, " +
                 V_MODEL + " TEXT, " +
+                DRIVER_NAME + " TEXT, " +
+                MOBILE_NUMBER + " TEXT, " +
+                EMAIL + " TEXT, " +
                 V_YEAR + " DATE ) ";
 
         db.execSQL(vehicleTable);
@@ -251,10 +253,11 @@ public class DBhelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(VEHICLE_IMG, vehicleModel.getVEHICLE_IMG());
         values.put(V_NUMBER, vehicleModel.getV_NUMBER());
-        values.put(DRIVER_NAME, vehicleModel.getDRIVER_NAME());
-        values.put(KM_RUNNING, vehicleModel.getKM_RUNNING());
         values.put(V_MAKE, vehicleModel.getV_MAKE());
         values.put(V_MODEL, vehicleModel.getV_MODEL());
+        values.put(DRIVER_NAME, vehicleModel.getDRIVER_NAME());
+        values.put(MOBILE_NUMBER, vehicleModel.getMOBILE_NUMBER());
+        values.put(EMAIL, vehicleModel.getEMAIL());
         values.put(V_YEAR, vehicleModel.getV_YEAR());
 
         DB.insert(V_TABLE, null, values);
@@ -271,13 +274,14 @@ public class DBhelper extends SQLiteOpenHelper {
                 int id = c.getInt(0);
                 String vehicleImg = c.getString(1);
                 String vNumber = c.getString(2);
-                String driverName = c.getString(3);
-                String kmRunning = c.getString(4);
-                String vMake = c.getString(5);
-                String vModel = c.getString(6);
-                String vYear = c.getString(7);
+                String vMake = c.getString(3);
+                String vModel = c.getString(4);
+                String driverName = c.getString(5);
+                String mobileNumber = c.getString(6);
+                String email = c.getString(7);
+                String vYear = c.getString(8);
 
-                data.add(new Vehicle_Model(id, vehicleImg, vNumber, driverName, kmRunning, vMake, vModel, vYear));
+                data.add(new Vehicle_Model(id, vehicleImg, vNumber,vMake,vModel,driverName, mobileNumber,email, vYear));
             } while (c.moveToNext());
         }
         c.close();
@@ -287,19 +291,21 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public void updateVehicleData(int id, String vehicleImg,
                                   String vNumber,
-                                  String driverName,
-                                  String kmRunning,
                                   String vMake,
                                   String vModel,
+                                  String driverName,
+                                  String mobileNumber,
+                                  String email,
                                   String vYear) {
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(VEHICLE_IMG, vehicleImg);
         values.put(V_NUMBER, vNumber);
-        values.put(DRIVER_NAME, driverName);
-        values.put(KM_RUNNING, kmRunning);
         values.put(V_MAKE, vModel);
         values.put(V_MODEL, vMake);
+        values.put(DRIVER_NAME, driverName);
+        values.put(MOBILE_NUMBER, mobileNumber);
+        values.put(EMAIL, email);
         values.put(V_YEAR, vYear);
 
         DB.update(V_TABLE, values, COLUMN_ID + "=" + id, null);
