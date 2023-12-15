@@ -779,17 +779,16 @@ public class Add_Fragment extends Fragment {
    }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        updateTempData();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         updateTempData();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        updateTempData();
+    }
 
     int total = 100;
     int parts = 6;
