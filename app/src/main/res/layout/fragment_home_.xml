@@ -112,6 +112,7 @@
             android:id="@+id/recyclerTripDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/recycler_trip_details"/>
     </LinearLayout>
