@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -389,6 +390,8 @@ public class Add_Fragment extends Fragment {
                 String json = gson.toJson(picDropModelsList);
 
                 tempDataModel.setT_PIC_DROP_MODEL(json);
+                pickupLoc=json;
+                dropLoc=json;
                 if(tempDataModel.isIS_PICDROPMODEL()){
                     progressVal+=valArray[2];
                     tempDataModel.setT_PROGRESS_VALUE(progressVal);
@@ -464,8 +467,6 @@ public class Add_Fragment extends Fragment {
                 tollCharges=binding.tollCharges.getText().toString().trim();
                 description=binding.desc.getText().toString().trim();
 
-                pickupLoc=json;
-                dropLoc=json;
                if(date.equalsIgnoreCase("")){
                     binding.dateError.setText("Please Select A Date");
                     binding.dateError.setVisibility(View.VISIBLE);
@@ -548,16 +549,21 @@ public class Add_Fragment extends Fragment {
         myObject.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if ("myValue".equals(evt.getPropertyName())) {
-                    System.out.println("myValue changed from " + evt.getOldValue() + " to " + evt.getNewValue());
-                    // Your action here
-                    int oldvalue=ValueChangeListener.myValue;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if ("myValue".equals(evt.getPropertyName())) {
+                            System.out.println("myValue changed from " + evt.getOldValue() + " to " + evt.getNewValue());
+                            // Your action here
+                            int oldvalue=ValueChangeListener.myValue;
 
-                    increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
-                    //ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
-                    animate(binding.gif,progressVal);
-                    binding.percentage.setText(progressVal+"%");
-                }
+                            increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
+                            //ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
+                            animate(binding.gif,progressVal);
+                            binding.percentage.setText(progressVal+"%");
+                        }
+                    }
+                });
             }
         });
 
@@ -569,6 +575,7 @@ public class Add_Fragment extends Fragment {
         progressAnimator.start();
     }
     public void animate(View view, int percentage) {
+        Context context = requireContext();
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int translationX = (int) ((percentage / 100.0) * screenWidth);
         int minus = (int) ((percentage / 100.0) * 130);
@@ -709,6 +716,8 @@ public class Add_Fragment extends Fragment {
 
         if(!tempDataModel.getT_PIC_DROP_MODEL().equalsIgnoreCase("")){
             json = tempDataModel.getT_PIC_DROP_MODEL();
+            pickupLoc=json;
+            dropLoc=json;
             Type listType = new TypeToken<List<PicDrop_Model>>(){}.getType();
             picDropModelsList = gson.fromJson(json, listType);
             locVal=picDropModelsList.size();
@@ -815,6 +824,5 @@ public class Add_Fragment extends Fragment {
         System.out.println("Parts: " + Arrays.toString(valArray));
 
     }
-
 
 }

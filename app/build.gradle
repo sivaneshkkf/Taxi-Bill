@@ -115,4 +115,7 @@ dependencies {
 
 //    Image picker
     implementation 'com.github.Drjacky:ImagePicker:2.3.22'
+
+// Create pdf
+    //implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.0.6'
 }

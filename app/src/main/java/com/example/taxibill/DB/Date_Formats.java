@@ -26,6 +26,7 @@ public class Date_Formats {
     public static SimpleDateFormat dateFormatNativeTime = new SimpleDateFormat("hh:mm a", Locale.getDefault());
     public static SimpleDateFormat dateFormatTimeStampChat = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.getDefault());
     public static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+    public static SimpleDateFormat outputFormat = new SimpleDateFormat("MMMM dd, yyyy");
     public static SimpleDateFormat yearyyyy = new SimpleDateFormat("yyyy", Locale.getDefault());
     public static SimpleDateFormat monthMM = new SimpleDateFormat("MM", Locale.getDefault());
     public static SimpleDateFormat datedd = new SimpleDateFormat("dd", Locale.getDefault());

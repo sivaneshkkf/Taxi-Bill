@@ -19,12 +19,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.example.taxibill.Activity.AddCar_Activity;
+import com.example.taxibill.Activity.Bill_Generate_Activity;
 import com.example.taxibill.Adapter.Car_Adapter;
 import com.example.taxibill.Adapter.Trip_Details_Adapter;
 import com.example.taxibill.DB.DB_Model;
 import com.example.taxibill.DB.DBhelper;
 import com.example.taxibill.DB.Vehicle_Model;
 import com.example.taxibill.R;
+import com.example.taxibill.Utils.CommonFunctions;
 import com.example.taxibill.Utils.OnItemViewClickListener;
 import com.example.taxibill.databinding.FragmentAddBinding;
 import com.example.taxibill.databinding.FragmentHomeBinding;
@@ -91,7 +93,17 @@ public class Home_Fragment extends Fragment {
         tripDetailsAdapter=new Trip_Details_Adapter(getActivity(), tripDetailsList, new OnItemViewClickListener() {
             @Override
             public void onClick(View v, int i) throws JSONException {
+                DB_Model db_model=tripDetailsList.get(i);
+                int id= db_model.getCOLUMN_ID();
+                if(v.getId()==R.id.lin){
 
+                    Bundle bundle= CommonFunctions.getBundle(getActivity());
+                    bundle.putInt("id",id);
+                    bundle.putInt("pos",i);
+                    Intent intent=new Intent(getActivity(), Bill_Generate_Activity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 

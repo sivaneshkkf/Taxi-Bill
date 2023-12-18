@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.example.taxibill.DB.DBhelper;
 import com.example.taxibill.DB.Vehicle_Model;
 import com.example.taxibill.MainActivity;
+import com.example.taxibill.Myutils.StatusBar;
 import com.example.taxibill.R;
 import com.example.taxibill.Utils.DialogUtils;
 import com.example.taxibill.databinding.ActivityAddCarBinding;
@@ -55,6 +57,9 @@ public class AddCar_Activity extends AppCompatActivity {
         binding=ActivityAddCarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         activity=this;
+
+        Window w=getWindow();
+        StatusBar.setColorStatusBar(w,activity);
 
         dBhelper=new DBhelper(activity);
         db=dBhelper.getReadableDatabase();
@@ -123,7 +128,7 @@ public class AddCar_Activity extends AppCompatActivity {
                 vModel=binding.vModel.getText().toString().trim();
                 driverName=binding.driverName.getText().toString().trim();
                 mobileNumber=binding.mobileNumber.getText().toString().trim();
-                email=binding.mobileNumber.getText().toString().trim();
+                email=binding.email.getText().toString().trim();
                 vYear=binding.vYearTv.getText().toString().trim();
 
                 if(URI.equalsIgnoreCase("")){
