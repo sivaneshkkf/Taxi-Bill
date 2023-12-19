@@ -72,9 +72,8 @@ public class AddCar_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ImagePicker.Companion.with(activity)
-                        .crop()
-                        .cropOval()
-                        .maxResultSize(512,512,true)
+                        .crop(16f,16f)
+                        .maxResultSize(1080,900,true)
                         .provider(ImageProvider.BOTH) //Or bothCameraGallery()
                         .createIntentFromDialog((Function1)(new Function1(){
                             public Object invoke(Object var1){

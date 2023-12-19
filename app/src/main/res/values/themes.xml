@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Theme.AppCompat" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:fontFamily">@font/poppins_regular</item>
-        <item name="android:forceDarkAllowed">true</item>
+        <item name="android:forceDarkAllowed">false</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >#ffffff</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <!--BottomSheetDialog-->
         <!--        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->

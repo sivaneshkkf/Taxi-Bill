@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
         activity = this;
         binding.bottomNavigationView.setBackground(null);
 
-        Window w=getWindow();
-        StatusBar.setColorStatusBar(w,activity);
-
         dBhelper=new DBhelper(this);
         db=dBhelper.getReadableDatabase();
 

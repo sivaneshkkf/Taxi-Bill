@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -549,7 +550,9 @@ public class Add_Fragment extends Fragment {
         myObject.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                getActivity().runOnUiThread(new Runnable() {
+
+                Handler handler=new Handler();
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if ("myValue".equals(evt.getPropertyName())) {
@@ -563,7 +566,7 @@ public class Add_Fragment extends Fragment {
                             binding.percentage.setText(progressVal+"%");
                         }
                     }
-                });
+                },1000);
             }
         });
 

@@ -85,7 +85,6 @@ public class Bill_Generate_Activity extends AppCompatActivity {
         setContentView(binding.getRoot());
         activity=this;
 
-        setStatusBarTextLight();
         linear=binding.linScreen;
 
         dBhelper=new DBhelper(activity);
@@ -256,18 +255,6 @@ public class Bill_Generate_Activity extends AppCompatActivity {
         binding.tollCharges.setText("₹ "+db_model.getTOLL_CHARGES());
         binding.totalFar.setText("₹"+db_model.getTOTAL_FAR());
 
-    }
-
-    private void setStatusBarTextLight() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(getColor(R.color.white));
-
-            // Set the status bar text color to light
-            View decor = window.getDecorView();
-            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
     }
 
 
