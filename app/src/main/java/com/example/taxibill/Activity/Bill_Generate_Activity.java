@@ -167,6 +167,7 @@ public class Bill_Generate_Activity extends AppCompatActivity {
         //sharePDFViaWhatsApp(pdfFile);
     }
 
+//    open pdf
     private void OpenPdf(File file) {
         String path = file.getPath();
         Log.i("file_path", "OpenPdf: " + path);
