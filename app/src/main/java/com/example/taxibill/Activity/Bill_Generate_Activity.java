@@ -8,6 +8,7 @@ import static com.github.mikephil.charting.animation.Easing.Linear;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -112,7 +113,7 @@ public class Bill_Generate_Activity extends AppCompatActivity {
                 Log.i("Size", ""+linear.getWidth()+" "+linear.getHeight());
                 bitmap=LoadBitmap(linear,linear.getWidth(),linear.getHeight());
 
-                checkPermission();
+                convertLayoutToPDFAndShare();
             }
         });
 
@@ -126,85 +127,87 @@ public class Bill_Generate_Activity extends AppCompatActivity {
         return bitmap;
     }
 
-    private void createPdf() {
-        WindowManager windowManager=(WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics displayMetrics=new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        float width=displayMetrics.widthPixels;
-        float height=displayMetrics.heightPixels;
-        int convertWidth=(int) width, converHeight = (int) height;
+    public void convertLayoutToPDFAndShare() {
 
-        PdfDocument document=new PdfDocument();
-        PdfDocument.PageInfo pageInfo=new PdfDocument.PageInfo.Builder(convertWidth,converHeight,1).create();
-        PdfDocument.Page page=document.startPage(pageInfo);
+        View layoutReceipt = binding.linScreen; // Get a reference to the layoutReceipt
+        int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(layoutReceipt.getWidth(), View.MeasureSpec.EXACTLY);
+        int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 
-        Canvas canvas=page.getCanvas();
-        Paint paint=new Paint();
-        canvas.drawPaint(paint);
+        layoutReceipt.measure(widthMeasureSpec, heightMeasureSpec);
+        int height = layoutReceipt.getMeasuredHeight();
 
-        bitmap=Bitmap.createScaledBitmap(bitmap,convertWidth,converHeight,true);
-        canvas.drawBitmap(bitmap,0,0,null);
-        document.finishPage(page);
+        Bitmap bitmap = Bitmap.createBitmap(layoutReceipt.getWidth(), height, Bitmap.Config.ARGB_8888);
 
-//  target pdf download
-        String targetPdf="/sdcard/page.pdf";
-        File file;
-        file=new File(targetPdf);
+        Canvas canvas = new Canvas(bitmap);
+        layoutReceipt.draw(canvas);
+
+        // Create a PDF document
+        PdfDocument pdfDocument = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(), height, 1).create();
+        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+        canvas = page.getCanvas();
+        canvas.drawBitmap(bitmap, 0, 0, null);
+
+        pdfDocument.finishPage(page);
+
+        // Save the PDF to a file
+        File pdfFile = new File(activity.getExternalFilesDir(null), "receipt.pdf");
         try {
-            document.writeTo(new FileOutputStream(file));
+            pdfDocument.writeTo(new FileOutputStream(pdfFile));
+            pdfDocument.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
-        document.close();
-        OpenPdf();
+        sharePDFFile(pdfFile);
+
+
+        // Share the PDF via WhatsApp
+        //sharePDFViaWhatsApp(pdfFile);
     }
 
-    private void OpenPdf() {
-        File file=new File("/sdcard/page.pdf");
-        if(file.exists()){
-            Intent intent=new Intent(Intent.ACTION_VIEW);
-            Uri uri=Uri.fromFile(file);
-            intent.setDataAndType(uri,"application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    private void OpenPdf(File file) {
+        String path = file.getPath();
+        Log.i("file_path", "OpenPdf: " + path);
 
-            try{
+        if (!path.equalsIgnoreCase("")) {
+            Uri contentUri = FileProvider.getUriForFile(
+                    activity,
+                    activity.getApplicationContext().getPackageName() + ".fileprovider",
+                    file);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(contentUri, "application/pdf");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            try {
                 startActivity(intent);
-            }catch (ActivityNotFoundException e){
+            } catch (ActivityNotFoundException e) {
                 Toast.makeText(activity, "Activity not found", Toast.LENGTH_SHORT).show();
             }
-
         }
     }
 
-    private void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                // Permission already granted, proceed with creating the PDF
-                createPdf();
-            } else {
-                // Request permission
-                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
-            }
-        } else {
-            // Permission is granted on devices running Android versions below M
-            createPdf();
+    private void sharePDFFile(File pdfFile) {
+        Uri contentUri = FileProvider.getUriForFile(
+                this,
+                this.getApplicationContext().getPackageName() + ".fileprovider",
+                pdfFile);
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("application/pdf");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(Intent.createChooser(shareIntent, "Share PDF using"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "No application found to open PDF", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_WRITE_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, proceed with creating the PDF
-                createPdf();
-            } else {
-                // Permission denied, show a message or handle it accordingly
-                Toast.makeText(getApplicationContext(), "Permission denied. Cannot create PDF.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
 
     public void getData(int pos){
