@@ -47,6 +47,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -503,7 +504,7 @@ public class Add_Fragment extends Fragment {
         });
 
 
-        Glide.with(getActivity()).asGif().load(R.drawable.car_gif).into(binding.gif);
+        Glide.with(getActivity()).asGif().load(R.drawable.car_gif).into(binding.seekBarGif);
 
 
        /* binding.totalKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -568,6 +569,34 @@ public class Add_Fragment extends Fragment {
                     }
                 },1000);
             }
+        });
+
+
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                String value = String.valueOf(progress);
+                /*if (progress % 10 == 0) {
+                    Range = progress;
+                    binding.seekbarValue.setText(value);
+                }*/
+                int x = seekBar.getThumb().getBounds().left;
+
+                //set the left value to textview x value
+                binding.seekBarGif.setX(x + 60);
+                //binding.seekbarVal.setText(value);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
         });
 
     }

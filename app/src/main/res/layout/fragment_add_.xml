@@ -376,12 +376,38 @@
     </androidx.core.widget.NestedScrollView>
 
 
+    <ImageView
+        android:id="@+id/seekBarGif"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="3dp" />
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="50"
+        android:max="100"
+        android:progressTint="@color/endcolor"
+        android:secondaryProgressTint="@color/endcolor"
+        android:backgroundTint="@color/grey_bg"
+        android:splitTrack="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -394,7 +420,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
-            <ProgressBar
+
+
+
+                <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="match_parent"
