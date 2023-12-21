@@ -583,7 +583,7 @@ public class Add_Fragment extends Fragment {
                 int x = seekBar.getThumb().getBounds().left;
 
                 //set the left value to textview x value
-                binding.seekBarGif.setX(x + 60);
+                binding.seekBarGif.setX(x+20);
                 //binding.seekbarVal.setText(value);
             }
 
@@ -600,6 +600,7 @@ public class Add_Fragment extends Fragment {
         });
 
     }
+
 
     public static void increaseProgressSmoothly(int startValue, int endValue, ProgressBar progressBar, long duration) {
         ObjectAnimator progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", startValue, endValue);

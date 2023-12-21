@@ -375,21 +375,24 @@
 
     </androidx.core.widget.NestedScrollView>
 
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/seekBarGif"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="3dp" />
+        android:layout_marginBottom="10dp" />
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:progress="50"
         android:max="100"
-        android:progressTint="@color/endcolor"
-        android:secondaryProgressTint="@color/endcolor"
-        android:backgroundTint="@color/grey_bg"
+        android:progressTint="@color/transparent"
+        android:secondaryProgressTint="@color/transparent"
+        android:thumbTint="@color/transparent"
+        android:backgroundTint="@color/transparent"
         android:splitTrack="false"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -399,6 +402,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         />
+</FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
