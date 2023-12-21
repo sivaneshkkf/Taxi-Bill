@@ -396,7 +396,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         />
