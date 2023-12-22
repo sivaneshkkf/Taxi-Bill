@@ -179,20 +179,24 @@ public class Add_Fragment extends Fragment {
 
                     tempDataModel.setT_TOTAL_KM(totalKmINT);
                     if(tempDataModel.isIS_TOTALKM()){
+                        int oldvalue=progressVal;
                         progressVal+=valArray[3];
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_TOTALKM(false);
                         myObject.setMyValue(progressVal);
+                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                     }
                 }else{
                     val=0;
                     totalKmINT=val;
                     tempDataModel.setT_TOTAL_KM(totalKmINT);
                     if(!tempDataModel.isIS_TOTALKM()){
+                        int oldvalue=progressVal;
                         progressVal-=valArray[3];
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_TOTALKM(true);
                         myObject.setMyValue(progressVal);
+                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                     }
                 }
             }
@@ -220,10 +224,12 @@ public class Add_Fragment extends Fragment {
 
                     tempDataModel.setT_PER_KM(perKmINT);
                     if(tempDataModel.isIS_PER_KM()){
+                        int oldvalue=progressVal;
                         progressVal+=valArray[4];
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_PER_KM(false);
                         myObject.setMyValue(progressVal);
+                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                     }
 
                 }else{
@@ -232,10 +238,12 @@ public class Add_Fragment extends Fragment {
 
                     tempDataModel.setT_PER_KM(perKmINT);
                     if(!tempDataModel.isIS_PER_KM()){
+                        int oldvalue=progressVal;
                         progressVal-=valArray[4];
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_PER_KM(true);
                         myObject.setMyValue(progressVal);
+                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                     }
                 }
 
@@ -264,10 +272,12 @@ public class Add_Fragment extends Fragment {
 
                     tempDataModel.setT_TOLL_CHARGES(tollChargesINT);
                     if(tempDataModel.isIs_TOLL_CHARGES()){
+                        int oldvalue=progressVal;
                         progressVal+=valArray[5];
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIs_TOLL_CHARGES(false);
                         myObject.setMyValue(progressVal);
+                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                     }
 
 
@@ -277,10 +287,12 @@ public class Add_Fragment extends Fragment {
 
                     tempDataModel.setT_TOLL_CHARGES(tollChargesINT);
                     if(!tempDataModel.isIs_TOLL_CHARGES()){
+                        int oldvalue=progressVal;
                         progressVal-=valArray[5];
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIs_TOLL_CHARGES(true);
                         myObject.setMyValue(progressVal);
+                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                     }
                 }
             }
@@ -322,10 +334,12 @@ public class Add_Fragment extends Fragment {
 
                         tempDataModel.setT_DATE_MODEL(jsonDate);
                         if(tempDataModel.isIS_DATEMODEL()){
+                            int oldvalue=progressVal;
                             progressVal+=valArray[1];
                             tempDataModel.setT_PROGRESS_VALUE(progressVal);
                             tempDataModel.setIS_DATEMODEL(false);
                             myObject.setMyValue(progressVal);
+                            increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                         }
 
 
@@ -395,10 +409,12 @@ public class Add_Fragment extends Fragment {
                 pickupLoc=json;
                 dropLoc=json;
                 if(tempDataModel.isIS_PICDROPMODEL()){
+                    int oldvalue=progressVal;
                     progressVal+=valArray[2];
                     tempDataModel.setT_PROGRESS_VALUE(progressVal);
                     tempDataModel.setIS_PICDROPMODEL(false);
                     myObject.setMyValue(progressVal);
+                    increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
                 }
 
 
@@ -453,10 +469,12 @@ public class Add_Fragment extends Fragment {
 
             tempDataModel.setT_VEHICLE(vehicle);
             if(tempDataModel.isIS_VEHICLE()){
+                int oldvalue=progressVal;
                 progressVal+=valArray[0];
                 tempDataModel.setT_PROGRESS_VALUE(progressVal);
                 tempDataModel.setIS_VEHICLE(false);
                 myObject.setMyValue(progressVal);
+                increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
             }
 
         }
@@ -563,7 +581,7 @@ public class Add_Fragment extends Fragment {
 
                             increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
                             //ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
-                            animate(binding.gif,progressVal);
+
                             binding.percentage.setText(progressVal+"%");
                         }
                     }
@@ -583,7 +601,7 @@ public class Add_Fragment extends Fragment {
                 int x = seekBar.getThumb().getBounds().left;
 
                 //set the left value to textview x value
-                binding.seekBarGif.setX(x+20);
+                binding.seekBarGif.setX(x);
                 //binding.seekbarVal.setText(value);
             }
 
@@ -607,7 +625,12 @@ public class Add_Fragment extends Fragment {
         progressAnimator.setDuration(duration);
         progressAnimator.start();
     }
-    public void animate(View view, int percentage) {
+    public static void increaseSeekBarSmoothly(int startValue, int endValue, SeekBar seekBar, long duration) {
+        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(seekBar, "progress", startValue, endValue);
+        progressAnimator.setDuration(duration);
+        progressAnimator.start();
+    }
+   /* public void animate(View view, int percentage) {
         Context context = requireContext();
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int translationX = (int) ((percentage / 100.0) * screenWidth);
@@ -631,7 +654,7 @@ public class Add_Fragment extends Fragment {
         ObjectAnimator animation = ObjectAnimator.ofFloat(view, "translationX", translationX);
         animation.setDuration(2000);
         animation.start();
-    }
+    }*/
 
 
     public void editTxt(EditText editText, TextView txtview){
@@ -733,8 +756,9 @@ public class Add_Fragment extends Fragment {
         progressVal=tempDataModel.getT_PROGRESS_VALUE();
         int oldvalue=ValueChangeListener.myValue;
         increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
+        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
         //ProgressBar_increase.Increase(0,progressVal,binding.progressBar,10);
-        animate(binding.gif,progressVal);
+
         binding.percentage.setText(progressVal+"%");
 
         totalKmINT=tempDataModel.getT_TOTAL_KM();
