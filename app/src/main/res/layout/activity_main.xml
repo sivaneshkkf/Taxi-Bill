@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <FrameLayout
@@ -66,15 +65,22 @@
             android:background="@color/transparent"
             app:menu="@menu/bottom_menu"/>
     </com.google.android.material.bottomappbar.BottomAppBar>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+   <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/startBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/start"
-        app:backgroundTint="@color/white"
-        android:backgroundTint="@color/endcolor"
+        android:src="@drawable/stearing2"
+        app:layout_anchor="@id/bottomAppBar"
+        app:maxImageSize="40dp"/>-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/stearing3"
         app:layout_anchor="@id/bottomAppBar"
         app:maxImageSize="40dp"/>
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

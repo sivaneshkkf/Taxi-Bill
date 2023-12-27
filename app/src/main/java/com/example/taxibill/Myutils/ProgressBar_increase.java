@@ -2,6 +2,7 @@ package com.example.taxibill.Myutils;
 
 import android.os.Handler;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class ProgressBar_increase {
@@ -52,6 +53,19 @@ public class ProgressBar_increase {
                 @Override
                 public void run() {
                     progressBar.setProgress(iteration);
+                }
+            },i * delayMillis);
+        }
+    }
+    public static void IncreaseSeakBar(int value, int percentage, SeekBar seekBar, long delayMillis){
+        int val=value;
+        for (int i=val; i<=percentage;i++){
+            final int iteration=i;
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    seekBar.setProgress(iteration);
                 }
             },i * delayMillis);
         }

@@ -154,11 +154,11 @@ public class DBhelper extends SQLiteOpenHelper {
         DB.insert(BILL_TABLE, null, values);
     }
 
-    public ArrayList<DB_Model> getEveryOne(String Year, String Month) {
+    public ArrayList<DB_Model> getEveryOne() {
         SQLiteDatabase DB = this.getReadableDatabase();
-        String filterQuery = "SELECT * FROM " + BILL_TABLE + " WHERE " + YEAR + "=? AND " + MONTH + "=? ";
-        String[] selectionArgs = {Year, Month};
-        Cursor c = DB.rawQuery(filterQuery, selectionArgs);
+        String filterQuery = "SELECT * FROM " + BILL_TABLE;
+
+        Cursor c = DB.rawQuery(filterQuery, null);
         ArrayList<DB_Model> data = new ArrayList<>();
 
         if (c.moveToFirst()) {
@@ -232,19 +232,26 @@ public class DBhelper extends SQLiteOpenHelper {
         DB.close();
     }
 
-    public String getVehicleModel(String vNumber) {
-        SQLiteDatabase DB = this.getReadableDatabase();
-        String query = "SELECT * FROM " + V_TABLE + " WHERE " + V_NUMBER + "= ? ";
-        String[] selectArgs = {vNumber};
-        Cursor cursor = DB.rawQuery(query, selectArgs);
+    public int getTotalEarning() {
+        int totalEarning = 0;
+        SQLiteDatabase DB = this.getWritableDatabase();
 
-        String vehicleModel = null;
-        if (cursor != null && cursor.moveToFirst()) {
-            vehicleModel = cursor.getString(cursor.getColumnIndexOrThrow(V_MODEL));
-            cursor.close();
+        // Assuming TOTAL_FAR is an integer column
+        String query = "SELECT SUM(" + TOTAL_FAR + ") FROM " + BILL_TABLE;
+
+        Cursor cursor = DB.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            totalEarning = cursor.getInt(0);
         }
-        return vehicleModel;
+
+        cursor.close();
+        return totalEarning;
     }
+
+
+
+
 
 
     // Vehicle Table
@@ -263,6 +270,19 @@ public class DBhelper extends SQLiteOpenHelper {
         DB.insert(V_TABLE, null, values);
     }
 
+    public String getVehicleModel(String vNumber) {
+        SQLiteDatabase DB = this.getReadableDatabase();
+        String query = "SELECT * FROM " + V_TABLE + " WHERE " + V_NUMBER + "= ? ";
+        String[] selectArgs = {vNumber};
+        Cursor cursor = DB.rawQuery(query, selectArgs);
+
+        String vehicleModel = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            vehicleModel = cursor.getString(cursor.getColumnIndexOrThrow(V_MODEL));
+            cursor.close();
+        }
+        return vehicleModel;
+    }
     public ArrayList<Vehicle_Model> getEveryVehicle() {
         SQLiteDatabase DB = this.getReadableDatabase();
         String filterQuery = "SELECT * FROM " + V_TABLE;

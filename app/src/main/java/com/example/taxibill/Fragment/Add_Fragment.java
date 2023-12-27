@@ -10,37 +10,30 @@ import static com.example.taxibill.DB.Date_Formats.getDateFormat;
 import static com.example.taxibill.DB.Date_Formats.monthMM;
 import static com.example.taxibill.DB.Date_Formats.monthMMM;
 import static com.example.taxibill.DB.Date_Formats.yearyyyy;
+import static com.example.taxibill.Myutils.ProgressBar_increase.IncreaseSeakBar;
 import static com.example.taxibill.Utils.App.gson;
-import static com.example.taxibill.Utils.CommonConstants.dropLoc;
-import static com.example.taxibill.Utils.CommonConstants.perKm;
-import static com.example.taxibill.Utils.CommonConstants.pickupLoc;
-import static com.example.taxibill.Utils.CommonConstants.tollCharges;
-import static com.example.taxibill.Utils.CommonConstants.totalKm;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewTreeObserver;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -60,7 +53,6 @@ import com.example.taxibill.DB.PicDrop_Model;
 import com.example.taxibill.DB.Temp_Data_Model;
 import com.example.taxibill.DB.Vehicle_Model;
 import com.example.taxibill.MainActivity;
-import com.example.taxibill.Myutils.ProgressBar_increase;
 import com.example.taxibill.Myutils.ValueChangeListener;
 import com.example.taxibill.R;
 import com.example.taxibill.Utils.CommonConstants;
@@ -75,17 +67,12 @@ import org.json.JSONException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Type;
-import java.sql.Date;
-import java.time.Month;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-public class Add_Fragment extends Fragment {
+public class Add_Fragment extends Fragment{
 
     FragmentAddBinding binding;
     ArrayList<DB_Model> allData=new ArrayList<>();
@@ -109,6 +96,7 @@ public class Add_Fragment extends Fragment {
     int val=0;
     public static ValueChangeListener myObject = new ValueChangeListener();
     int t_ColumnId;
+    private LinearLayout linearLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -126,6 +114,8 @@ public class Add_Fragment extends Fragment {
         dBhelper=new DBhelper(getActivity());
         db=dBhelper.getReadableDatabase();
 
+        linearLayout=binding.linCar;
+
         YEAR=getCurrentDateFormat(yearyyyy);
         MONTH=getCurrentDateFormat(monthMM);
 
@@ -136,11 +126,12 @@ public class Add_Fragment extends Fragment {
             vehicleList.add(vehicleModel.getV_NUMBER());
         }
 
+
         ArrayAdapter spinnerAdapter= new ArrayAdapter<>(getActivity(),R.layout.spinner,vehicleList);
         spinnerAdapter.setDropDownViewResource(R.layout.spinner);
         binding.vehicleSpinner.setAdapter(spinnerAdapter);
 
-        allData=dBhelper.getEveryOne(YEAR,MONTH);
+        allData=dBhelper.getEveryOne();
 
         getSharedPrefValues();
         /*if(MyPrefs.getInstance(getActivity()).getInt(CommonConstants.locVal)>0){
@@ -184,7 +175,8 @@ public class Add_Fragment extends Fragment {
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_TOTALKM(false);
                         myObject.setMyValue(progressVal);
-                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                        startSmoothMovement(progressVal);
                     }
                 }else{
                     val=0;
@@ -196,7 +188,8 @@ public class Add_Fragment extends Fragment {
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_TOTALKM(true);
                         myObject.setMyValue(progressVal);
-                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                        startSmoothMovement(progressVal);
                     }
                 }
             }
@@ -229,7 +222,8 @@ public class Add_Fragment extends Fragment {
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_PER_KM(false);
                         myObject.setMyValue(progressVal);
-                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                        startSmoothMovement(progressVal);
                     }
 
                 }else{
@@ -243,7 +237,8 @@ public class Add_Fragment extends Fragment {
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIS_PER_KM(true);
                         myObject.setMyValue(progressVal);
-                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                        startSmoothMovement(progressVal);
                     }
                 }
 
@@ -277,7 +272,8 @@ public class Add_Fragment extends Fragment {
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIs_TOLL_CHARGES(false);
                         myObject.setMyValue(progressVal);
-                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                        startSmoothMovement(progressVal);
                     }
 
 
@@ -292,7 +288,8 @@ public class Add_Fragment extends Fragment {
                         tempDataModel.setT_PROGRESS_VALUE(progressVal);
                         tempDataModel.setIs_TOLL_CHARGES(true);
                         myObject.setMyValue(progressVal);
-                        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                        startSmoothMovement(progressVal);
                     }
                 }
             }
@@ -339,7 +336,8 @@ public class Add_Fragment extends Fragment {
                             tempDataModel.setT_PROGRESS_VALUE(progressVal);
                             tempDataModel.setIS_DATEMODEL(false);
                             myObject.setMyValue(progressVal);
-                            increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                            //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                            startSmoothMovement(progressVal);
                         }
 
 
@@ -414,7 +412,8 @@ public class Add_Fragment extends Fragment {
                     tempDataModel.setT_PROGRESS_VALUE(progressVal);
                     tempDataModel.setIS_PICDROPMODEL(false);
                     myObject.setMyValue(progressVal);
-                    increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                    //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                    startSmoothMovement(progressVal);
                 }
 
 
@@ -474,7 +473,8 @@ public class Add_Fragment extends Fragment {
                 tempDataModel.setT_PROGRESS_VALUE(progressVal);
                 tempDataModel.setIS_VEHICLE(false);
                 myObject.setMyValue(progressVal);
-                increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
+                //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+                startSmoothMovement(progressVal);
             }
 
         }
@@ -522,7 +522,8 @@ public class Add_Fragment extends Fragment {
         });
 
 
-        Glide.with(getActivity()).asGif().load(R.drawable.car_gif).into(binding.seekBarGif);
+        Glide.with(getActivity()).asGif().load(R.drawable.car_gif).into(binding.carGif);
+        Glide.with(getActivity()).asGif().load(R.drawable.speedo_meter_gif).into(binding.speadoMeaterGif);
 
 
        /* binding.totalKm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -582,7 +583,7 @@ public class Add_Fragment extends Fragment {
                             increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
                             //ProgressBar_increase.Increase(oldvalue,progressVal,binding.progressBar,20);
 
-                            binding.percentage.setText(progressVal+"%");
+                            //binding.percentage.setText(progressVal+"%");
                         }
                     }
                 },1000);
@@ -590,14 +591,14 @@ public class Add_Fragment extends Fragment {
         });
 
 
-        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+       /* binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 String value = String.valueOf(progress);
-                /*if (progress % 10 == 0) {
+                *//*if (progress % 10 == 0) {
                     Range = progress;
                     binding.seekbarValue.setText(value);
-                }*/
+                }*//*
                 int x = seekBar.getThumb().getBounds().left;
 
                 //set the left value to textview x value
@@ -615,7 +616,7 @@ public class Add_Fragment extends Fragment {
 
             }
 
-        });
+        });*/
 
     }
 
@@ -626,10 +627,12 @@ public class Add_Fragment extends Fragment {
         progressAnimator.start();
     }
     public static void increaseSeekBarSmoothly(int startValue, int endValue, SeekBar seekBar, long duration) {
-        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(seekBar, "progress", startValue, endValue);
-        progressAnimator.setDuration(duration);
-        progressAnimator.start();
+
+
     }
+
+
+
    /* public void animate(View view, int percentage) {
         Context context = requireContext();
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -655,6 +658,48 @@ public class Add_Fragment extends Fragment {
         animation.setDuration(2000);
         animation.start();
     }*/
+
+    private void startSmoothMovement(int percentage) {
+        // Use ViewTreeObserver to wait until the layout is measured
+        ViewTreeObserver viewTreeObserver = linearLayout.getViewTreeObserver();
+        viewTreeObserver.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                // Remove the listener to avoid multiple calls
+                linearLayout.getViewTreeObserver().removeOnPreDrawListener(this);
+
+                // Calculate the target X position based on the percentage
+                float targetX = (float) (linearLayout.getWidth() * percentage) / 100;
+
+                // Adjust targetX by subtracting the width of the object
+                targetX -= binding.carGif.getWidth();
+
+                // Ensure targetX stays within bounds
+                targetX = Math.max(0, Math.min(targetX, linearLayout.getWidth() - binding.carGif.getWidth()));
+
+                // Create a ValueAnimator to smoothly animate the X position
+                ValueAnimator animator = ValueAnimator.ofFloat(binding.carGif.getX(), targetX);
+                animator.setDuration(2000); // Adjust the duration as needed
+                animator.setInterpolator(new LinearInterpolator());
+
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        // Update the X position during the animation
+                        float newX = (float) animation.getAnimatedValue();
+                        binding.carGif.setX(newX);
+                    }
+                });
+
+                animator.start();
+
+                // Return true to continue with the drawing pass
+                return true;
+            }
+        });
+    }
+
+
 
 
     public void editTxt(EditText editText, TextView txtview){
@@ -756,10 +801,11 @@ public class Add_Fragment extends Fragment {
         progressVal=tempDataModel.getT_PROGRESS_VALUE();
         int oldvalue=ValueChangeListener.myValue;
         increaseProgressSmoothly(oldvalue,progressVal,binding.progressBar,2000);
-        increaseSeekBarSmoothly(oldvalue,progressVal,binding.seekBar,2000);
-        //ProgressBar_increase.Increase(0,progressVal,binding.progressBar,10);
 
-        binding.percentage.setText(progressVal+"%");
+        //IncreaseSeakBar(oldvalue,progressVal,binding.seekBar,30);
+        startSmoothMovement(progressVal);
+
+        //binding.percentage.setText(progressVal+"%");
 
         totalKmINT=tempDataModel.getT_TOTAL_KM();
         totalKm=String.valueOf(totalKmINT);
@@ -833,7 +879,8 @@ public class Add_Fragment extends Fragment {
 
     }
 
-   public void clearDB(){
+
+    public void clearDB(){
         dBhelper.deleteTempData(tempDataModel.getT_COLUMN_ID());
         MyPrefs.getInstance(getActivity()).putBoolean(CommonConstants.isTableCreated,false);
         MyPrefs.getInstance(getActivity()).putInt(CommonConstants.locVal,0);

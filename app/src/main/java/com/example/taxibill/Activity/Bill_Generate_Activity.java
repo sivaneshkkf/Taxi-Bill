@@ -95,7 +95,7 @@ public class Bill_Generate_Activity extends AppCompatActivity {
 
         dbModelsList.clear();
         vehicleModelArrayList.clear();
-        dbModelsList=dBhelper.getEveryOne(YEAR,MONTH);
+        dbModelsList=dBhelper.getEveryOne();
         vehicleModelArrayList=dBhelper.getEveryVehicle();
 
         Bundle bundle=getIntent().getExtras();

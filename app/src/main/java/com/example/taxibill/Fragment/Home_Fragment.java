@@ -44,6 +44,7 @@ public class Home_Fragment extends Fragment {
     List<Vehicle_Model> list=new ArrayList<>();
     Trip_Details_Adapter tripDetailsAdapter;
     String YEAR="",MONTH="";
+    int totalEarning=0;
     List<DB_Model> tripDetailsList=new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,11 +67,13 @@ public class Home_Fragment extends Fragment {
 
         list=dBhelper.getEveryVehicle();
 
-        tripDetailsList=dBhelper.getEveryOne(YEAR,MONTH);
+        tripDetailsList=dBhelper.getEveryOne();
         Log.i("tripDetailsList", "tripDetailsList: "+tripDetailsList.size());
         Log.i("tripDetailsList", "YEAR: "+YEAR);
         Log.i("tripDetailsList", "MONTH: "+MONTH);
 
+        totalEarning= dBhelper.getTotalEarning();
+        binding.earning.setText("₹ "+totalEarning);
 
         carAdapter=new Car_Adapter(getActivity(), list, new OnItemViewClickListener() {
             @Override
