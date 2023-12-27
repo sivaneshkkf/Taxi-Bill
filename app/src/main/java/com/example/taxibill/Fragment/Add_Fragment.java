@@ -351,7 +351,6 @@ public class Add_Fragment extends Fragment{
                     }
                 },year1,month1,date1);
 
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
