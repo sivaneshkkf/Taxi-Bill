@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -52,9 +53,12 @@ import org.w3c.dom.DocumentType;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -66,6 +70,7 @@ public class Bill_Generate_Activity extends AppCompatActivity {
     Activity activity;
     DBhelper dBhelper;
     SQLiteDatabase db;
+    File pdfFile;
     String YEAR="",MONTH="";
     DB_Model db_model;
     Vehicle_Model vehicleModel;
@@ -113,6 +118,15 @@ public class Bill_Generate_Activity extends AppCompatActivity {
                 bitmap=LoadBitmap(linear,linear.getWidth(),linear.getHeight());
 
                 convertLayoutToPDFAndShare();
+                sharePDFFile(pdfFile);
+            }
+        });
+
+        binding.downloadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                convertLayoutToPDFAndShare();
+                downloadPDF(pdfFile);
             }
         });
 
@@ -151,7 +165,7 @@ public class Bill_Generate_Activity extends AppCompatActivity {
         pdfDocument.finishPage(page);
 
         // Save the PDF to a file
-        File pdfFile = new File(activity.getExternalFilesDir(null), "receipt.pdf");
+        pdfFile = new File(activity.getExternalFilesDir(null), "receipt.pdf");
         try {
             pdfDocument.writeTo(new FileOutputStream(pdfFile));
             pdfDocument.close();
@@ -159,11 +173,29 @@ public class Bill_Generate_Activity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        sharePDFFile(pdfFile);
+    }
 
+    private void downloadPDF(File pdfFile) {
+        try {
+            InputStream inputStream = new FileInputStream(pdfFile);
+            OutputStream outputStream = new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/receipt.pdf");
 
-        // Share the PDF via WhatsApp
-        //sharePDFViaWhatsApp(pdfFile);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
+            }
+
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+
+            // Notify the user that the download is complete, e.g., using a Toast
+            Toast.makeText(activity, "PDF Downloaded", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 //    open pdf

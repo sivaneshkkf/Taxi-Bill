@@ -61,7 +61,7 @@
                         android:text="Taxi"
                         android:textColor="@color/black"
                         android:textFontWeight="1000"
-                        android:textSize="25sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         style="@style/poppins_semiBold_600"
@@ -73,7 +73,7 @@
                         android:text="Reciept"
                         android:textColor="@color/black"
                         android:textFontWeight="1000"
-                        android:textSize="25sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -96,7 +96,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="TN21BA2092"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/mobNumber"
@@ -106,7 +106,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="7010037476"
                         android:textColor="@color/gray"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/email"
@@ -116,7 +116,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="sivaneshkkf@gmail.com"
                         android:textColor="@color/gray"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -128,7 +128,7 @@
                     android:fontFamily="@font/poppins_bold"
                     android:text="Date: 15-12-23023"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -147,7 +147,7 @@
                     android:paddingLeft="15dp"
                     android:text="Journey"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerPicDrop"
@@ -173,7 +173,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="Total KM: "
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/km"
@@ -181,9 +181,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
-                        android:text="1110 KM"
                         android:textColor="@color/gray"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -194,10 +193,10 @@
                     android:layout_marginTop="15dp"
                     android:background="@color/yellow"
                     android:fontFamily="@font/poppins_bold"
-                    android:paddingLeft="15dp"
-                    android:text="Far"
+                    android:paddingLeft="12sp"
+                    android:text="Fare"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -216,7 +215,7 @@
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:textColor="@color/background_yellow"
-                        android:textSize="30sp" />
+                        android:textSize="16sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -240,7 +239,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:text="Toll Charges: "
                                 android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:textSize="10sp" />
 
                             <TextView
                                 android:id="@+id/tollCharges"
@@ -250,7 +249,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:text="₹ 120"
                                 android:textColor="@color/gray"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <ImageView
@@ -274,7 +273,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:text="Total: "
                                 android:textColor="@color/black"
-                                android:textSize="14sp" />
+                                android:textSize="10sp" />
 
                             <TextView
                                 android:id="@+id/totalFar"
@@ -284,7 +283,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:text="₹ 1850"
                                 android:textColor="@color/gray"
-                                android:textSize="14sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

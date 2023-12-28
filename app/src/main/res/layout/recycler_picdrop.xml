@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:background="@drawable/shape_circle_border_gray"
             android:gravity="center"
             android:layout_marginRight="5dp"
@@ -25,17 +25,20 @@
                 style="@style/poppins_semiBold_600"
                 android:text="1"
                 android:gravity="center"
+                android:textSize="10sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
 
-        <EditText
+        <TextView
             android:id="@+id/picLoc"
-            style="@style/Edit_textbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="10sp"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="5dp"
             android:layout_gravity="center"
-            android:hint="Pickup Location 1"
+            android:fontFamily="@font/poppins_medium"
             android:inputType="text" />
 
         <TextView
@@ -46,16 +49,18 @@
             android:fontFamily="@font/poppins_medium"
             android:text="-"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="10sp" />
 
-
-        <EditText
+        <TextView
             android:id="@+id/dropLoc"
-            style="@style/Edit_textbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Drop Location"
+            android:textSize="10sp"
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="5dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
             android:inputType="text" />
 
     </LinearLayout>

@@ -143,7 +143,6 @@
     <style name="Edit_textbox">
         <item name="android:backgroundTint">@color/light_black</item>
         <item name="android:background">@drawable/background_small_curve</item>
-        <item name="android:fontFamily">@font/inter_semibold</item>
         <item name="fontFamily">@font/poppins_regular</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">normal</item>
