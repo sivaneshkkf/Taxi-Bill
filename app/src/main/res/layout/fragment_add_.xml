@@ -35,7 +35,6 @@
                     android:id="@+id/speadoMeaterGif"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginLeft="50dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/roundedCornersImageView15" />
 

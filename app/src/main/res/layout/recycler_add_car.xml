@@ -7,9 +7,9 @@
     android:id="@+id/lin">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img"
-        android:layout_width="35dp"
+        android:layout_width="40dp"
         android:layout_gravity="center"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:src="@drawable/car">
     </de.hdodenhof.circleimageview.CircleImageView>
 
@@ -22,5 +22,5 @@
         android:text="TN21BA2092"
         android:layout_gravity="center"
         android:fontFamily="@font/poppins_semibold"
-        android:layout_marginTop="7dp"/>
+        android:layout_marginTop="3dp"/>
 </LinearLayout>
